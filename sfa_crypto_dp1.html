@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗号資産に関連する制度のあり方等の検証</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .section {
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            page-break-inside: avoid;
+        }
+        .header {
+            background: linear-gradient(135deg, #2a6496 0%, #1a4060 100%);
+            color: white;
+            padding: 30px 40px;
+            border-radius: 8px 8px 0 0;
+        }
+        .footer {
+            background-color: #f3f4f6;
+            padding: 20px 40px;
+            color: #666;
+            border-top: 1px solid #e5e7eb;
+            border-radius: 0 0 8px 8px;
+            margin-top: 30px;
+        }
+        .section-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #2a6496;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .info-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #2a6496;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .warning-box {
+            background-color: #fff8f0;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2a6496;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #1a4060;
+        }
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-5">
+    <div class="container mx-auto max-w-4xl">
+        <!-- タイトルスライド -->
+        <div class="header">
+            <h1 class="text-4xl font-bold mb-3">暗号資産に関連する制度のあり方等の検証</h1>
+            <p class="text-xl">令和7年4月10日 金融庁発表 ディスカッション・ペーパー概要</p>
+        </div>
+
+        <!-- 目次 -->
+        <div class="section">
+            <h2 class="text-2xl font-bold mb-4">目次</h2>
+            <ol class="list-decimal pl-8">
+                <li class="mb-2"><a href="#intro" class="text-blue-600 hover:underline">暗号資産の基本</a></li>
+                <li class="mb-2"><a href="#situation" class="text-blue-600 hover:underline">暗号資産を取り巻く状況</a></li>
+                <li class="mb-2"><a href="#current-state" class="text-blue-600 hover:underline">暗号資産取引の現状と課題</a></li>
+                <li class="mb-2"><a href="#background" class="text-blue-600 hover:underline">規制見直しの背景</a></li>
+                <li class="mb-2"><a href="#basic-policy" class="text-blue-600 hover:underline">規制見直しの基本方針</a></li>
+                <li class="mb-2"><a href="#issue1" class="text-blue-600 hover:underline">具体的な検討課題① 情報開示制度</a></li>
+                <li class="mb-2"><a href="#issue2" class="text-blue-600 hover:underline">具体的な検討課題② 取引所の体制強化</a></li>
+                <li class="mb-2"><a href="#issue3" class="text-blue-600 hover:underline">具体的な検討課題③ 自主規制と新技術対応</a></li>
+                <li class="mb-2"><a href="#international" class="text-blue-600 hover:underline">国際的な動向</a></li>
+                <li class="mb-2"><a href="#schedule" class="text-blue-600 hover:underline">これからのスケジュール</a></li>
+                <li class="mb-2"><a href="#summary" class="text-blue-600 hover:underline">まとめ</a></li>
+            </ol>
+        </div>
+
+        <!-- 暗号資産の基本 -->
+        <div id="intro" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">1</span>暗号資産の基本</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">暗号資産（仮想通貨）とは</h3>
+                <p class="mb-4">暗号資産（以前は「仮想通貨」と呼ばれていました）とは、ブロックチェーン技術を用いて発行・管理されるデジタル資産のことです。法定通貨（円やドルなど）とは異なり、国や中央銀行が発行するものではありません。</p>
+
+                <div class="info-box">
+                    <p class="font-semibold">代表的な暗号資産の例</p>
+                    <ul class="list-disc pl-5 mt-2">
+                        <li><strong>ビットコイン（BTC）</strong>：最初の暗号資産で、最も有名で時価総額も最大</li>
+                        <li><strong>イーサリアム（ETH）</strong>：スマートコントラクト機能を持ち、様々なアプリケーションの基盤として利用</li>
+                        <li><strong>リップル（XRP）</strong>：国際送金の効率化などを目的として開発</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">ブロックチェーン技術について</h3>
+                <p class="mb-4">ブロックチェーンとは、取引データをブロックと呼ばれる単位にまとめ、それを時系列に連結して保存する分散型台帳技術です。以下の特徴があります：</p>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">主な特徴</p>
+                        <ul class="list-disc pl-5">
+                            <li><strong>分散管理</strong>：中央管理者がいない</li>
+                            <li><strong>改ざん耐性</strong>：一度記録された情報は変更が難しい</li>
+                            <li><strong>透明性</strong>：取引履歴が公開されている</li>
+                            <li><strong>P2P通信</strong>：仲介者なしで直接やりとりできる</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">活用分野</p>
+                        <ul class="list-disc pl-5">
+                            <li>決済・送金</li>
+                            <li>資産のデジタル化（トークン化）</li>
+                            <li>スマートコントラクト（自動契約）</li>
+                            <li>サプライチェーン管理</li>
+                            <li>デジタルアイデンティティ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box mt-5">
+                <p class="font-semibold">暗号資産の特性と注意点</p>
+                <ul class="list-disc pl-5 mt-2">
+                    <li>価格変動が大きく、投資リスクが高い</li>
+                    <li>法定通貨のような価値の保証はない</li>
+                    <li>ハッキングや詐欺などのセキュリティリスクがある</li>
+                    <li>規制の枠組みが発展途上で、法的保護が限定的な場合がある</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 暗号資産を取り巻く状況 -->
+        <div id="situation" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">2</span>暗号資産を取り巻く状況</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">日本国内での暗号資産取引の現状</h3>
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">取引規模の拡大</p>
+                        <ul class="list-disc pl-5">
+                            <li>国内暗号資産交換業者における<span class="highlight">口座開設数が延べ1,200万口座を超え</span>、幅広い層に広がっています</li>
+                            <li>利用者の暗号資産預託金残高は<span class="highlight">5兆円以上</span>に達しています</li>
+                            <li>投資経験者の中での暗号資産保有率は約<span class="highlight">7.3%</span>で、FX取引や社債よりも高い保有率となっています</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">投資対象化の進行</p>
+                        <ul class="list-disc pl-5">
+                            <li>従来の送金手段としての利用に加え、<span class="highlight">投資対象</span>として認識されるようになっています</li>
+                            <li>米国では<span class="highlight">ビットコイン現物ETF</span>が認可され、機関投資家の参入も進んでいます</li>
+                            <li>海外では<span class="highlight">1,200社以上の機関投資家</span>がビットコイン現物ETFに投資しています</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">暗号資産の二つの側面</h3>
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-bold text-center p-2 bg-blue-100 rounded-t-lg">①基盤となる暗号資産</p>
+                        <div class="border border-blue-100 p-3 rounded-b-lg">
+                            <p class="mb-2">ブロックチェーン・ネットワークにおいて広く流通しているもの</p>
+                            <p class="text-sm text-gray-600">例：ビットコイン、イーサリアムなど</p>
+                            <p class="mt-2">暗号資産間や法定通貨との交換等において重要な役割を果たしている</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-bold text-center p-2 bg-green-100 rounded-t-lg">②プロジェクト等のための暗号資産</p>
+                        <div class="border border-green-100 p-3 rounded-b-lg">
+                            <p class="mb-2">特定の目的（プロジェクト運営等）のために発行されるもの</p>
+                            <p class="text-sm text-gray-600">例：各種プロジェクトトークン</p>
+                            <p class="mt-2">その取引活性化は、イノベーションの促進に寄与する</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mt-5">
+                <p class="font-semibold">オルタナティブ投資としての位置づけ</p>
+                <p class="mt-2">暗号資産は価格変動性が高いものの、適切な投資環境整備を図ることで、伝統的な投資商品（株式や債券など）と異なる値動きを示す「オルタナティブ投資」として、ポートフォリオ分散の選択肢となる可能性があります。</p>
+            </div>
+        </div>
+
+        <!-- 暗号資産取引の現状と課題 -->
+        <div id="current-state" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">3</span>暗号資産取引の現状と課題</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">国内取引環境の課題</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">取扱銘柄の制限</p>
+                        <ul class="list-disc pl-5">
+                            <li>国内暗号資産交換業者で取り扱われる銘柄は<span class="highlight">諸外国と比べて少ない</span></li>
+                            <li>新しい暗号資産の審査に時間がかかる</li>
+                            <li>海外で人気の銘柄が国内で取引できないケースがある</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">取引コストと流動性</p>
+                        <ul class="list-disc pl-5">
+                            <li>一部の国内取引所では<span class="highlight">取引手数料が海外と比較して高い</span>場合がある</li>
+                            <li>取引量が海外に比べて少なく、流動性が低いケースも</li>
+                            <li>取引機能やサービスの多様性に制限がある</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">海外取引所の利用拡大</h3>
+                <p class="mb-4">このような状況から、日本の利用者が海外の暗号資産取引所を利用するケースが増加しています。これには以下のような問題があります：</p>
+
+                <div class="warning-box">
+                    <p class="font-semibold">海外取引所利用の問題点</p>
+                    <ul class="list-disc pl-5 mt-2">
+                        <li>日本の利用者保護制度の対象外となるリスク</li>
+                        <li>トラブル発生時の対応が困難</li>
+                        <li>国内規制の実効性低下</li>
+                        <li>国内暗号資産ビジネスの競争力低下</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">DEX（分散型取引所）の台頭</h3>
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">DEXとは</p>
+                        <p>中央管理者のいない分散型の取引プラットフォームで、スマートコントラクトによって自動的に取引が行われます。</p>
+                        <p class="mt-2">取引所が利用者の資産を預かることなく、利用者同士が直接取引できるのが特徴です。</p>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">DEXの課題</p>
+                        <ul class="list-disc pl-5">
+                            <li>規制の枠組みが明確でない</li>
+                            <li>利用者保護の仕組みが不十分</li>
+                            <li>マネーロンダリング対策の難しさ</li>
+                            <li>技術的な脆弱性のリスク</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 規制見直しの背景 -->
+        <div id="background" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">4</span>規制見直しの背景</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">暗号資産を取り巻く環境変化</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">2019年の法改正以降の変化</p>
+                        <ul class="list-disc pl-5">
+                            <li>暗号資産の<span class="highlight">投資対象化が急速に進展</span></li>
+                            <li>国内外の<span class="highlight">投資家層の広がり</span></li>
+                            <li>海外での<span class="highlight">ETF認可</span>など制度整備の進展</li>
+                            <li>機関投資家の参入増加</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">技術革新の加速</p>
+                        <ul class="list-disc pl-5">
+                            <li><span class="highlight">Web3</span>（分散型インターネット）の発展</li>
+                            <li>ブロックチェーン技術の多様化・高度化</li>
+                            <li><span class="highlight">DEX</span>などの新しい取引形態の普及</li>
+                            <li>NFTなど新たなデジタル資産の登場</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">健全な投資環境整備の必要性</h3>
+                <p class="mb-4">暗号資産は高いボラティリティ（価格変動性）を持ちますが、以下の点から適切な投資環境整備が求められています：</p>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">経済的意義</p>
+                        <ul class="list-disc pl-5">
+                            <li>ポートフォリオ分散の新たな選択肢</li>
+                            <li>デジタルエコノミーの基盤形成</li>
+                            <li>イノベーション促進の資金循環</li>
+                            <li>国際的な金融・技術競争力の維持</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">社会的課題への対応</p>
+                        <ul class="list-disc pl-5">
+                            <li>利用者保護の強化</li>
+                            <li>市場の透明性・公正性の確保</li>
+                            <li>国内事業者の競争環境整備</li>
+                            <li>マネーロンダリング対策の実効性向上</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mt-5">
+                <p class="font-semibold">Web3の健全な発展の重要性</p>
+                <p class="mt-2">Web3（ブロックチェーン技術を活用した分散型インターネット）の健全な発展は、わが国が抱える社会問題を解決し、生産性を向上させる上で重要です。暗号資産は、Web3エコシステムの重要な構成要素となっています。</p>
+            </div>
+        </div>
+
+        <!-- 規制見直しの基本方針 -->
+        <div id="basic-policy" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">5</span>規制見直しの基本方針</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">規制見直しの基本的な考え方</h3>
+
+                <div class="flex-container">
+                    <div class="w-full">
+                        <p class="font-semibold mb-2">二つの目標のバランス</p>
+                        <div class="flex-container">
+                            <div class="w-full md:w-5/12 bg-blue-50 p-4 rounded-lg">
+                                <p class="text-center font-bold mb-2">利用者保護</p>
+                                <ul class="list-disc pl-5">
+                                    <li>適切な情報開示</li>
+                                    <li>不公正取引の防止</li>
+                                    <li>資産の分別管理</li>
+                                    <li>システムの安全性確保</li>
+                                </ul>
+                            </div>
+                            <div class="w-full md:w-5/12 bg-green-50 p-4 rounded-lg">
+                                <p class="text-center font-bold mb-2">イノベーション促進</p>
+                                <ul class="list-disc pl-5">
+                                    <li>過度な規制による萎縮効果の回避</li>
+                                    <li>技術革新を阻害しない制度設計</li>
+                                    <li>国際競争力の維持・向上</li>
+                                    <li>新規ビジネスの創出支援</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">規制見直しの対象範囲</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">対象となる暗号資産</p>
+                        <ul class="list-disc pl-5">
+                            <li>基盤となるブロックチェーン・ネットワークに流通する暗号資産（ビットコイン、イーサリアムなど）</li>
+                            <li>特定の目的（プロジェクト運営等）のために発行される暗号資産（各種プロジェクトトークン）</li>
+                            <li>※NFT（非代替性トークン）など他の類型のデジタル資産は別途検討</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">対象となる事業者・取引</p>
+                        <ul class="list-disc pl-5">
+                            <li>暗号資産交換業者（取引所・販売所）</li>
+                            <li>暗号資産カストディ業者</li>
+                            <li>暗号資産デリバティブ取引</li>
+                            <li>DEXなどの新たな取引形態</li>
+                            <li>自主規制団体</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">国際的な規制動向との調和</h3>
+
+                <div class="warning-box">
+                    <p class="font-semibold">国際的な整合性の確保</p>
+                    <p class="mt-2">暗号資産取引は国境を越えて行われるため、日本の規制が国際的な規制と著しく異なると、規制の実効性が低下するリスクがあります。IOSCOやFATFなどの国際機関の原則や、EU、アメリカ、韓国などの規制動向を参考にしつつ、国際的な整合性を確保することが重要です。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 具体的な検討課題① 情報開示制度 -->
+        <div id="issue1" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">6</span>具体的な検討課題① 情報開示制度</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">暗号資産の情報開示制度の整備</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">現状の課題</p>
+                        <ul class="list-disc pl-5">
+                            <li>暗号資産に関する<span class="highlight">標準的な情報開示制度がない</span></li>
+                            <li>取引所ごとに開示内容や方法が異なる</li>
+                            <li>暗号資産のリスクや特性に関する情報が不足</li>
+                            <li>利用者が適切な投資判断を行うための十分な情報が提供されていない</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">検討される対応</p>
+                        <ul class="list-disc pl-5">
+                            <li><span class="highlight">標準的な情報開示制度</span>の整備</li>
+                            <li>暗号資産の発行者・プロジェクトに関する情報開示</li>
+                            <li>技術的特性、ガバナンス、開発状況などの開示</li>
+                            <li>重要な変更時の適時開示の仕組み</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">取引所の情報開示強化</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>開示内容</th>
+                            <th>期待される効果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>取引関連情報</td>
+                            <td>取引価格、スプレッド、流動性、手数料体系</td>
+                            <td>取引の透明性向上、より良い取引環境の提供</td>
+                        </tr>
+                        <tr>
+                            <td>財務・業務情報</td>
+                            <td>財務状況、利用者資産の管理状況、システム障害情報</td>
+                            <td>取引所の健全性の見える化、リスク判断材料の提供</td>
+                        </tr>
+                        <tr>
+                            <td>リスク情報</td>
+                            <td>価格変動リスク、セキュリティリスク、法規制リスク</td>
+                            <td>利用者の適切なリスク認識、自己責任原則の実質化</td>
+                        </tr>
+                        <tr>
+                            <td>銘柄選定基準</td>
+                            <td>取扱銘柄の審査・選定プロセス、上場廃止基準</td>
+                            <td>選定プロセスの透明化、信頼性向上</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-box mt-5">
+                <p class="font-semibold">自主規制機関の役割強化</p>
+                <p class="mt-2">日本暗号資産取引業協会（JVCEA）などの自主規制機関が、情報開示の標準やガイドラインを策定し、会員企業による統一的な対応を促進することも検討されています。</p>
+            </div>
+        </div>
+
+        <!-- 具体的な検討課題② 取引所の体制強化 -->
+        <div id="issue2" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">7</span>具体的な検討課題② 取引所の体制強化</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">取引所の業務運営体制の強化</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">システム管理体制</p>
+                        <ul class="list-disc pl-5">
+                            <li>システム障害に関する対応強化</li>
+                            <li>サイバーセキュリティ対策の高度化</li>
+                            <li>大量取引時の安定稼働確保</li>
+                            <li>コールドウォレット管理の徹底</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">利用者資産の保護</p>
+                        <ul class="list-disc pl-5">
+                            <li>分別管理の実効性確保</li>
+                            <li>信託保全などの保護スキーム強化</li>
+                            <li>破綻時の利用者資産返還手続きの明確化</li>
+                            <li>緊急時対応計画の整備</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box mt-4">
+                    <p class="font-semibold">過去の教訓</p>
+                    <p class="mt-2">過去の暗号資産取引所の破綻事例（Mt.Goxなど）やシステム障害事例の教訓を踏まえ、特に利用者資産の安全な管理体制を強化する必要があります。</p>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">取引監視体制の整備</h3>
+
+                <div class="flex-container">
+                    <div class="w-full">
+                        <p class="mb-4">暗号資産市場では、以下のような不公正取引が懸念されており、これらを防止するための監視体制強化が求められています：</p>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>不公正取引の類型</th>
+                                    <th>内容</th>
+                                    <th>対応策</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>相場操縦</td>
+                                    <td>人為的に価格を変動させる行為</td>
+                                    <td>市場監視システムの導入、不自然な取引パターンの検知</td>
+                                </tr>
+                                <tr>
+                                    <td>風説の流布</td>
+                                    <td>SNSなどでの虚偽情報の拡散</td>
+                                    <td>情報モニタリング、虚偽情報への迅速な対応</td>
+                                </tr>
+                                <tr>
+                                    <td>インサイダー取引</td>
+                                    <td>非公開情報を利用した取引</td>
+                                    <td>重要情報の管理体制構築、取引監視</td>
+                                </tr>
+                                <tr>
+                                    <td>MEV（Maximal Extractable Value）</td>
+                                    <td>取引順序操作による利益獲得</td>
+                                    <td>取引メカニズムの透明化、順序公平性の確保</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mt-5">
+                <p class="font-semibold">業界全体での取組み</p>
+                <p class="mt-2">個別の取引所による取組みに加え、業界全体での協力体制や標準的な監視の枠組みを構築することも検討されています。自主規制機関と当局が連携し、効果的な市場監視体制を整備することが重要です。</p>
+            </div>
+        </div>
+
+        <!-- 具体的な検討課題③ 自主規制と新技術対応 -->
+        <div id="issue3" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">8</span>具体的な検討課題③ 自主規制と新技術対応</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">自主規制機関のあり方</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">現状の課題</p>
+                        <ul class="list-disc pl-5">
+                            <li>暗号資産の特性に応じた迅速な対応が難しい</li>
+                            <li>会員企業の関与度合いにばらつきがある</li>
+                            <li>規制リソースの制約</li>
+                            <li>国際的な協力体制の不足</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">対応の方向性</p>
+                        <ul class="list-disc pl-5">
+                            <li>自主規制機関（JVCEA）の<span class="highlight">機能強化</span></li>
+                            <li>新たな暗号資産の審査プロセスの効率化</li>
+                            <li>会員企業からの<span class="highlight">適切な人材・資金提供</span></li>
+                            <li>国際的な自主規制団体との連携強化</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">DEX（分散型取引所）等への対応</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">DEXの特性と課題</p>
+                        <ul class="list-disc pl-5">
+                            <li>中央管理者が存在せず、取引が自動化されている</li>
+                            <li>国境を越えたアクセスが可能</li>
+                            <li>分散型のため規制の適用が困難</li>
+                            <li>匿名性が高く、本人確認などの対応が難しい</li>
+                            <li>技術的に複雑で一般利用者の理解が難しい</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">検討される対応</p>
+                        <ul class="list-disc pl-5">
+                            <li>DEXの<span class="highlight">法的位置づけの明確化</span></li>
+                            <li>一定の規制枠組みの適用検討</li>
+                            <li>利用者保護のための最低限のルール整備</li>
+                            <li>開発者・運営者の責任範囲の明確化</li>
+                            <li>国際的な協調による規制アプローチ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box mt-4">
+                    <p class="font-semibold">技術中立的な規制アプローチ</p>
+                    <p class="mt-2">特定の技術を前提とした規制ではなく、取引の実態や機能に着目した「技術中立的」なアプローチが重要です。これにより、技術革新を阻害せずに必要な利用者保護を確保することが可能になります。</p>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">PTS（私設取引システム）制度の活用可能性</h3>
+                <p class="mb-4">証券市場で導入されているPTS（私設取引システム）のような制度を暗号資産取引にも応用する可能性が検討されています。これにより、多様な取引の場を確保しつつ、一定の規制・監督の枠組みを維持することが期待されます。</p>
+            </div>
+        </div>
+
+        <!-- 国際的な動向 -->
+        <div id="international" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">9</span>国際的な動向</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">各国・地域の規制状況</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>国・地域</th>
+                            <th>主な規制の特徴</th>
+                            <th>最近の動向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>欧州連合（EU）</td>
+                            <td>MiCA（暗号資産市場規制）による包括的な規制枠組み</td>
+                            <td>2024年から段階的に適用開始、情報開示、取引所の認可制等</td>
+                        </tr>
+                        <tr>
+                            <td>米国</td>
+                            <td>SEC（証券取引委員会）・CFTC（商品先物取引委員会）による監督</td>
+                            <td>ビットコイン現物ETF認可、証券性の判断基準に関する議論継続</td>
+                        </tr>
+                        <tr>
+                            <td>韓国</td>
+                            <td>暗号資産利用者保護法の制定</td>
+                            <td>2023年施行、取引所の登録制、利用者保護措置の義務化</td>
+                        </tr>
+                        <tr>
+                            <td>シンガポール</td>
+                            <td>決済サービス法による規制</td>
+                            <td>リテール顧客への販売規制強化、デジタル資産促進政策</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">国際機関の取組み</h3>
+
+                <div class="flex-container">
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">IOSCO（証券監督者国際機構）</p>
+                        <ul class="list-disc pl-5">
+                            <li>2023年11月に<span class="highlight">暗号資産市場に関する政策提言</span>を公表</li>
+                            <li>暗号資産取引所のあり方</li>
+                            <li>利益相反の管理</li>
+                            <li>市場の完全性確保</li>
+                            <li>分別管理と顧客資産保護</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <p class="font-semibold mb-2">FATF（金融活動作業部会）</p>
+                        <ul class="list-disc pl-5">
+                            <li>マネーロンダリング・テロ資金対策の国際基準</li>
+                            <li>仮想資産サービスプロバイダー（VASP）の規制</li>
+                            <li>「トラベルルール」の実施</li>
+                            <li>DEXなど新たな取引形態への対応</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mt-5">
+                <p class="font-semibold">国際的な規制協調の重要性</p>
+                <p class="mt-2">暗号資産取引はグローバルに行われるため、一国のみの規制では実効性に限界があります。国際的な規制協調を進めつつ、日本の状況に適した規制を構築することが重要です。また、日本の考え方を国際的な議論の場に積極的に発信していくことも求められています。</p>
+            </div>
+        </div>
+
+        <!-- これからのスケジュール -->
+        <div id="schedule" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">10</span>これからのスケジュール</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">意見募集と今後の予定</h3>
+
+                <div class="flex-container">
+                    <div class="w-full">
+                        <div class="bg-blue-50 p-5 rounded-lg">
+                            <p class="font-bold text-center mb-4">ディスカッション・ペーパーに関する意見募集</p>
+                            <div class="flex-container">
+                                <div class="w-full md:w-5/12">
+                                    <p class="font-semibold mb-2">意見募集の詳細</p>
+                                    <ul class="list-disc pl-5">
+                                        <li>募集期間：<span class="highlight">令和7年5月10日（土曜）17時00分まで</span></li>
+                                        <li>提出方法：メールによる提出</li>
+                                        <li>提出先：企画市場局市場課【crypto_dp@fsa.go.jp】</li>
+                                        <li>必要事項：氏名、職業、連絡先、意見の理由</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-5/12">
+                                    <p class="font-semibold mb-2">意見募集の目的</p>
+                                    <p>本ディスカッション・ペーパーで示された方向性について、市場関係者や一般の方からの幅広い意見を集め、今後の具体的な規制の見直しを含めた必要な対応の検討に役立てるため。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <h4 class="text-lg font-semibold mb-3">今後のスケジュール（想定）</h4>
+                    <div class="relative">
+                        <div class="border-l-2 border-blue-500 ml-4 pl-8 pb-5 relative">
+                            <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7px] top-1"></div>
+                            <p class="font-bold">令和7年4月10日</p>
+                            <p>ディスカッション・ペーパーの公表</p>
+                        </div>
+                        <div class="border-l-2 border-blue-500 ml-4 pl-8 pb-5 relative">
+                            <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7px] top-1"></div>
+                            <p class="font-bold">令和7年5月10日</p>
+                            <p>意見募集の締切り</p>
+                        </div>
+                        <div class="border-l-2 border-blue-500 ml-4 pl-8 pb-5 relative">
+                            <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7px] top-1"></div>
+                            <p class="font-bold">令和7年夏頃（予定）</p>
+                            <p>寄せられた意見の取りまとめ・公表</p>
+                        </div>
+                        <div class="border-l-2 border-blue-500 ml-4 pl-8 pb-5 relative">
+                            <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7px] top-1"></div>
+                            <p class="font-bold">令和7年度内（予定）</p>
+                            <p>必要に応じて具体的な制度見直しの検討開始</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box mt-5">
+                <p class="font-semibold">注意事項</p>
+                <ul class="list-disc pl-5 mt-2">
+                    <li>意見をお寄せいただいた方の氏名等は、開示の請求等があった場合には、意見の内容とともに開示されます。</li>
+                    <li>匿名を希望される場合は、意見の冒頭にその旨を明記してください。</li>
+                    <li>個別の回答はいたしませんので、あらかじめご了承ください。</li>
+                    <li>意見募集の詳細は金融庁ウェブサイトをご確認ください。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- まとめ -->
+        <div id="summary" class="section">
+            <h2 class="text-2xl font-bold mb-4"><span class="section-number">11</span>まとめ</h2>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-3">金融庁が目指す暗号資産取引市場の姿</h3>
+
+                <div class="flex-container">
+                    <div class="w-full">
+                        <div class="bg-blue-50 p-5 rounded-lg mb-5">
+                            <p class="text-center font-bold mb-4">「利用者保護とイノベーション促進のバランスの取れた環境整備」</p>
+                            <p>金融庁は、わが国において暗号資産取引市場が健全に発展するため、利用者保護を図りつつも、イノベーションを促進する環境整備を目指しています。</p>
+                        </div>
+
+                        <div class="flex-container">
+                            <div class="w-full md:w-5/12">
+                                <p class="font-semibold mb-2">利用者保護の強化</p>
+                                <ul class="list-disc pl-5">
+                                    <li>適切な情報開示制度の整備</li>
+                                    <li>不公正取引の防止</li>
+                                    <li>利用者資産の保護強化</li>
+                                    <li>システムリスク管理の徹底</li>
+                                </ul>
+                            </div>
+                            <div class="w-full md:w-5/12">
+                                <p class="font-semibold mb-2">イノベーション促進</p>
+                                <ul class="list-disc pl-5">
+                                    <li>過剰規制の回避</li>
+                                    <li>新たな取引形態への柔軟な対応</li>
+                                    <li>Web3エコシステムの健全な発展支援</li>
+                                    <li>国際的な競争力の維持・向上</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <h3 class="text-xl font-semibold mb-3">本ディスカッション・ペーパーの位置づけと今後</h3>
+                <p class="mb-4">本ディスカッション・ペーパーは、暗号資産に関連する制度のあり方について、金融庁の現時点での問題意識や検討の方向性を示したものです。今後、寄せられた意見を踏まえて、さらに検討を深めていく予定です。</p>
+
+                <div class="bg-yellow-50 p-5 rounded-lg">
+                    <p class="text-center font-bold mb-2">皆様のご意見をお待ちしています</p>
+                    <p class="text-center">令和7年5月10日（土曜）17時00分まで</p>
+                    <p class="text-center mt-3">送付先：企画市場局市場課【crypto_dp@fsa.go.jp】</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            <p class="text-sm">本資料は金融庁が令和7年4月10日に公表した「暗号資産に関連する制度のあり方等の検証」ディスカッション・ペーパーを基に作成しています。</p>
+            <p class="text-sm">詳細については、金融庁のウェブサイトをご確認ください。</p>
+            <p class="text-center mt-3">© 令和7年 金融庁</p>
+        </div>
+    </div>
+
+    <script>
+        // スムーズスクロールのための簡単なスクリプト
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
