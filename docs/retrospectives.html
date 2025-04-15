@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アジャイルふりかえりの手引き - ダイアグラム版</title>
+    <style>
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Poppins:wght@600;700&display=swap');
+
+        /* Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Prevent body scroll */
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #1f2937; /* Dark theme background */
+            color: #e5e7eb; /* Light text */
+            line-height: 1.6;
+        }
+
+        /* Presentation Container */
+        .presentation {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Slide Styles */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 50px 60px; /* Adjust padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #1f2937;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Simple Fade transition */
+            overflow-y: auto; /* Allow vertical scroll within slide */
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        /* Content Styling & Animation */
+        .slide > * {
+            max-width: 1000px; /* Limit content width */
+            width: 100%;
+            margin-bottom: 20px; /* Spacing between elements */
+            animation: contentFadeIn 0.6s ease-out 0.3s forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+        .slide > *:last-child { margin-bottom: 0; }
+
+        @keyframes contentFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Stagger content animation */
+        .slide.active > *:nth-child(2) { animation-delay: 0.4s; }
+        .slide.active > *:nth-child(3) { animation-delay: 0.5s; }
+        .slide.active > *:nth-child(4) { animation-delay: 0.6s; }
+        .slide.active > *:nth-child(5) { animation-delay: 0.7s; }
+        /* Add more if needed */
+
+        /* Typography */
+        h2 { /* Slide Title */
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px; /* 24px */
+            font-weight: 700; /* Bold */
+            color: #60a5fa; /* Accent color 1 */
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h3 { /* Card/Section Title */
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px; /* 18px */
+            font-weight: 700; /* Bold */
+            color: #a78bfa; /* Accent color 2 */
+            margin-top: 30px;
+            margin-bottom: 15px;
+             display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+         h4 { /* Titles within diagrams/cards */
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px; /* Slightly smaller than h3 */
+            font-weight: 600; /* Semi-bold */
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        p, li {
+            font-size: 16px; /* 16px */
+            font-weight: 400; /* Normal */
+            color: #d1d5db;
+             max-width: 800px; /* Limit text line length */
+             margin-left: auto;
+             margin-right: auto;
+        }
+
+        ul, ol {
+            list-style: none;
+            padding-left: 0;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #60a5fa; /* Accent color */
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        ol {
+            counter-reset: list-counter;
+        }
+        ol li {
+             counter-increment: list-counter;
+             padding-left: 35px;
+             margin-bottom: 12px;
+        }
+        ol li::before {
+            content: counter(list-counter);
+            position: absolute;
+            left: 0;
+            top: 0px;
+            background-color: #a78bfa; /* Accent color 2 */
+            color: #1f2937;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            line-height: 22px;
+            display: inline-block;
+        }
+
+        strong {
+            color: #facc15; /* Highlight color */
+            font-weight: 500;
+        }
+
+        /* Card Layout */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Responsive grid */
+            gap: 20px; /* Space between cards */
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .card {
+            background-color: #374151; /* Card background */
+            border-radius: 8px; /* Corner radius */
+            padding: 20px;
+            border: 1px solid #4b5563; /* Subtle border */
+            /* Minimal shadow for depth */
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+             transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .card:hover {
+             transform: translateY(-3px);
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .card h4 {
+             margin-bottom: 10px;
+             color: #93c5fd; /* Card title color */
+             font-size: 17px;
+             justify-content: flex-start; /* Align icon and text left */
+        }
+         .card h4 svg {
+            width: 18px; /* Icon size */
+            height: 18px;
+            fill: #93c5fd; /* Icon color matches title */
+        }
+
+        .card p, .card ul, .card li {
+            font-size: 15px; /* Slightly smaller text in cards */
+            color: #d1d5db;
+        }
+        .card ul { margin-left: 0; margin-top: 10px; }
+        .card li { padding-left: 20px; margin-bottom: 6px;}
+        .card li::before {
+            content: '›';
+            font-size: 1.3em;
+            color: #a78bfa;
+            top: -1px;
+        }
+         /* Special card styles */
+         .card.highlight {
+             background-color: rgba(96, 165, 250, 0.1);
+             border-color: #60a5fa;
+         }
+          .card.q-card { /* For Q&A */
+             background-color: #4b5563;
+          }
+          .card.q-card h4 { /* Q: */
+            color: #facc15;
+            font-weight: 700;
+          }
+          .card.q-card p { /* A: */
+            margin-top: 5px;
+             padding-left: 25px; /* Indent answer */
+             position: relative;
+          }
+           .card.q-card p::before { /* A: prefix */
+             content: 'A:';
+             position: absolute;
+             left: 0;
+             font-weight: 600;
+             color: #a78bfa;
+           }
+
+        /* Step Diagram (Slide 3) */
+        .steps-diagram {
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: stretch; /* Make items same height */
+            flex-wrap: wrap; /* Wrap steps on smaller screens */
+            gap: 15px; /* Gap between steps */
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+            position: relative; /* For connecting lines */
+        }
+
+        .step-item {
+            flex: 1; /* Distribute space */
+            min-width: 130px; /* Minimum width */
+            max-width: 160px; /* Maximum width */
+            background-color: #374151;
+            border-radius: 8px;
+            padding: 35px 10px 15px 10px; /* Top padding for number */
+            text-align: center;
+            position: relative;
+            border: 1px solid #4b5563;
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+        }
+
+        .step-item::before { /* Step number circle */
+            content: attr(data-step);
+            position: absolute;
+            top: -18px; /* Position above the box */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            background-color: #60a5fa; /* Accent color 1 */
+            color: #111827; /* Dark text on light background */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 700;
+            border: 3px solid #1f2937; /* Background color border */
+            z-index: 2;
+        }
+
+        /* Arrow connecting steps (simple visual cue) */
+        .step-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px; /* Position between steps */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #6b7280; /* Muted arrow color */
+            z-index: 1;
+            display: block; /* Show by default */
+        }
+
+        /* Hide arrow if wrapped */
+         @media (max-width: 1150px) { /* Adjust breakpoint based on content */
+            .step-item:not(:last-child)::after { display: none; }
+         }
+         @media (max-width: 768px) {
+             .steps-diagram { gap: 25px; } /* Increase gap when stacking */
+             .step-item { min-width: 200px; max-width: none; flex-basis: 100%; } /* Stack vertically */
+             .step-item:not(:last-child)::after { display: none; }
+         }
+
+
+        .step-item h4 {
+            font-size: 15px;
+            color: #e5e7eb;
+            margin-bottom: 5px;
+            min-height: 3em; /* Ensure consistent title height */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center title */
+            flex-grow: 0; /* Don't grow title */
+        }
+        .step-item p {
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.4;
+            flex-grow: 1; /* Allow paragraph to take remaining space */
+        }
+
+        /* Stage Diagram (Slide 4) */
+        .stages-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: stretch; /* Make stages same height */
+            flex-wrap: wrap;
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 30px;
+        }
+
+        .stage-item {
+            flex: 1;
+            min-width: 250px;
+            background-color: rgba(167, 139, 250, 0.1); /* Accent color 2 tint */
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid #a78bfa;
+            text-align: left;
+            position: relative;
+        }
+
+        .stage-item .stage-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #a78bfa;
+            color: #1f2937;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .stage-item h4 {
+            color: #d8b4fe; /* Lighter shade of accent 2 */
+            font-size: 17px;
+            margin-bottom: 10px;
+            padding-top: 30px; /* Space below number */
+             justify-content: flex-start; /* Align left */
+        }
+        .stage-item p {
+            font-size: 15px;
+            color: #e5e7eb;
+        }
+        .stage-item strong { color: #facc15; }
+
+        /* Shuhari Diagram (Slide 12) */
+        .shuhari-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 30px;
+            gap: 20px;
+             position: relative;
+        }
+
+        .shuhari-stage {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-radius: 8px;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+        }
+
+        .shuhari-stage h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #facc15; /* Highlight color for ShuHaRi */
+            font-family: 'Poppins', sans-serif;
+            justify-content: center; /* Center title */
+        }
+        .shuhari-stage p {
+            font-size: 15px;
+            color: #d1d5db;
+        }
+
+        /* Arrow connecting Shuhari stages */
+        .shuhari-stage:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #60a5fa; /* Accent color 1 */
+            z-index: 1;
+             display: block;
+        }
+        /* Hide arrow if wrapped */
+         @media (max-width: 768px) {
+            .shuhari-diagram { gap: 25px; }
+             .shuhari-stage { min-width: 250px; flex-basis: 100%; }
+             .shuhari-stage:not(:last-child)::after { display: none; }
+         }
+
+        /* Table Styles (Simplified for consistency) */
+        .styled-table {
+            border-collapse: collapse;
+            margin: 30px auto;
+            font-size: 15px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden; /* Ensures border radius applies to table */
+        }
+        .styled-table thead tr {
+            background-color: #4b5563; /* Header background */
+            color: #e5e7eb;
+            text-align: left;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #4b5563;
+        }
+        .styled-table tbody tr:last-of-type {
+            border-bottom: none;
+        }
+        .styled-table tbody tr:hover {
+            background-color: #4b5563; /* Subtle hover */
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: fixed;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e5e7eb;
+            background-color: rgba(55, 65, 81, 0.8); /* Semi-transparent dark */
+            border: 1px solid #6b7280;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .nav-button:hover {
+            background-color: rgba(75, 85, 101, 0.9); /* Darken on hover */
+            border-color: #9ca3af;
+            transform: scale(1.05);
+        }
+        .nav-button:active {
+            transform: scale(1);
+        }
+        .nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: scale(1);
+            background-color: rgba(55, 65, 81, 0.5);
+             border-color: #4b5563;
+        }
+
+        #prev { left: 30px; }
+        #next { right: 30px; }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(31, 41, 55, 0.8); /* Darker background */
+            color: #9ca3af; /* Muted text */
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 13px;
+            z-index: 100;
+            backdrop-filter: blur(3px);
+            border: 1px solid #4b5563;
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 1em; /* Match font size */
+            height: 1em;
+            display: inline-block;
+            vertical-align: -0.15em; /* Align better with text */
+            fill: currentColor; /* Inherit color */
+        }
+
+        /* Specific Icon Colors */
+        h2 > svg.icon { color: #60a5fa; }
+        h3 > svg.icon { color: #a78bfa; }
+        .card h4 > svg.icon { color: #93c5fd; }
+        /* Add more specific icon colors if needed */
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .slide { padding: 40px 30px; }
+            h2 { font-size: 22px; }
+            h3 { font-size: 17px; }
+            p, li { font-size: 15px; }
+            .card-container { grid-template-columns: 1fr; gap: 15px; } /* Stack cards */
+            .stages-diagram { gap: 15px; }
+            .nav-button { width: 45px; height: 45px; font-size: 20px; bottom: 20px; }
+            #prev { left: 15px; }
+            #next { right: 15px; }
+            .slide-counter { bottom: 10px; font-size: 12px; padding: 4px 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .slide { padding: 30px 15px; }
+            h2 { font-size: 20px; }
+            h3 { font-size: 16px; }
+            p, li { font-size: 14px; }
+             .nav-button { width: 40px; height: 40px; font-size: 18px; }
+            #prev { left: 10px; }
+            #next { right: 10px; }
+        }
+
+        /* Scrollbar styling (optional, simple) */
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: #374151; border-radius: 3px; }
+        .slide::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 3px; }
+        .slide::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+    </style>
+</head>
+<body>
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></symbol>
+        <symbol id="icon-puzzle" viewBox="0 0 24 24"><path d="M19.78 11.78c.09.14.15.3.18.47.03.17.04.34.04.51 0 .17-.01.34-.04.51-.03.17-.09.33-.18.47l-1.4 2.1c-.27.4-.64.71-1.08.92-.44.21-.93.32-1.42.32h-2.8c-.28 0-.55-.06-.81-.18l-3.48-1.6c-.5-.23-.89-.69-1.03-1.24l-.4-1.6c-.04-.16-.06-.32-.06-.48s.02-.32.06-.48l.4-1.6c.14-.55.53-1.01 1.03-1.24l3.48-1.6c.26-.12.53-.18.81-.18h2.8c.49 0 .98.11 1.42.32.44.21.81.52 1.08.92l1.4 2.1zm-2.88 4.09c.24-.11.45-.28.6-.49l1.4-2.1c.09-.14.15-.3.18-.47.03-.17.04-.34.04-.51s-.01-.34-.04-.51c-.03-.17-.09-.33-.18-.47l-1.4-2.1c-.15-.21-.36-.38-.6-.49-.24-.11-.5-.17-.76-.17h-2.8c-.15 0-.3.03-.44.09l-3.48 1.6c-.27.13-.48.36-.56.64l-.4 1.6c-.02.08-.03.17-.03.25s.01.17.03.25l.4 1.6c.08.28.29.52.56.64l3.48 1.6c.14.06.29.09.44.09h2.8c.26 0 .52-.06.76-.17z"/></symbol>
+        <symbol id="icon-rocket" viewBox="0 0 24 24"><path d="M13.15 1.07a.5.5 0 0 0-.3 0L8.22 3.18 2.6 6.72c-.39.23-.5.72-.27 1.11l3.1 5.37 1.14 1.98c.12.2.31.35.53.43l4.57 1.69 4.57-1.69c.22-.08.41-.23.53-.43l1.14-1.98 3.1-5.37c.23-.39.12-.88-.27-1.11L15.78 3.18 13.15 1.07zM8.75 18.5c0 .83.67 1.5 1.5 1.5h3.5c.83 0 1.5-.67 1.5-1.5v-3.43l.57-.21c.33-.12.56-.41.56-.76v-1.53c0-.34-.22-.64-.54-.75l-.59-.21V8.5c0-.83-.67-1.5-1.5-1.5h-3.5c-.83 0-1.5.67-1.5 1.5v3.07l-.59.21c-.32.11-.54.41-.54.75v1.53c0 .35.23.64.56.76l.57.21V18.5z"/></symbol>
+        <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></symbol>
+        <symbol id="icon-target" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></symbol>
+        <symbol id="icon-lightbulb" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></symbol>
+        <symbol id="icon-setting" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.08-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></symbol>
+        <symbol id="icon-online" viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6zm13 11.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-4 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-4 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></symbol>
+        <symbol id="icon-faq" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></symbol>
+        <symbol id="icon-scrum" viewBox="0 0 24 24"><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-15C6.48 1 2 5.48 2 11h2c0-4.41 3.59-8 8-8s8 3.59 8 8h2c0-5.52-4.48-10-10-10zm0 17c-4.41 0-8-3.59-8-8H2c0 5.52 4.48 10 10 10s10-4.48 10-10h-2c0 4.41-3.59 8-8 8z"/></symbol>
+        <symbol id="icon-level" viewBox="0 0 24 24"><path d="M22 12l-4-4v3H3v2h15v3l4-4zM4 3h16v2H4zm0 16h16v2H4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.11C7.5 7.61 6.79 7.3 6 7.3c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></symbol>
+        <symbol id="icon-flag" viewBox="0 0 24 24"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/></symbol>
+         <symbol id="icon-book" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></symbol>
+         <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></symbol>
+         <symbol id="icon-group-work" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></symbol>
+      </defs>
+    </svg>
+
+    <div class="presentation">
+
+        <section class="slide active">
+            <h1 style="font-family: 'Poppins', sans-serif; font-size: 2.8em; font-weight: 700; color: #fff; margin-bottom: 10px;">アジャイルふりかえりの手引き</h1>
+            <p style="font-size: 1.3em; color: #9ca3af; font-weight: 400;">強いチームを育てる「ふりかえり」の実践ガイド</p>
+            <svg class="icon" style="width: 80px; height: 80px; color: #60a5fa; margin: 30px 0;"><use xlink:href="#icon-group-work"/></svg>
+            <p style="font-weight: 500; font-size: 1.1em;">「立ち止まり」「対話し」「アクションする」<br>チームが自律的に成長するためのプロセスとツール</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-lightbulb"/></svg>ふりかえりとは何か</h2>
+            <div class="card-container" style="grid-template-columns: repeat(2, 1fr); max-width: 900px;">
+                 <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-book"/></svg>定義</h4>
+                    <p>チーム全員が定期的に<strong>立ち止まり</strong>、より良いやり方を見つけるために<strong>話し合い</strong>、チームの行動を少しずつ<strong>変えていく</strong>活動。</p>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-rocket"/></svg>アジャイルなチーム</h4>
+                    <p><strong>学び・カイゼン</strong>を続け、変化に柔軟に対応し、<strong>大きな価値</strong>を生み出せるチーム。</p>
+                </div>
+            </div>
+
+            <h3><svg class="icon"><use xlink:href="#icon-target"/></svg>期待される効果</h3>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-chat"/></svg>対話促進</h4>
+                    <p>情報共有が進み、活発な対話が生まれる。</p>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-puzzle"/></svg>問題解決</h4>
+                    <p>問題が共有され、チームで解決策を探る。</p>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-rocket"/></svg>学び加速</h4>
+                    <p>経験から学ぶサイクルで成長が加速。</p>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-users"/></svg>自律性向上</h4>
+                    <p>自ら考え、決定、行動する力が向上。</p>
+                </div>
+            </div>
+             <p style="margin-top: 25px; font-style: italic;">単なる反省会ではなく、<strong>「よりよい方法を試す」行動変容の場</strong>です。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-level"/></svg>ふりかえりの7つのステップ</h2>
+            <p>チームの継続的成長を促す循環プロセスを図解</p>
+            <div class="steps-diagram">
+                <div class="step-item" data-step="1"><h4>準備</h4><p>目的設定、ツール準備、担当決め</p></div>
+                <div class="step-item" data-step="2"><h4>場作り</h4><p>テーマ提示、合意形成、安心な環境</p></div>
+                <div class="step-item" data-step="3"><h4>想起</h4><p>出来事・感情共有、整理、可視化</p></div>
+                <div class="step-item" data-step="4"><h4>アイデア</h4><p>改善案を出す、発散と収束</p></div>
+                <div class="step-item" data-step="5"><h4>決定</h4><p>具体的アクション選択、明文化</p></div>
+                <div class="step-item" data-step="6"><h4>改善</h4><p>ふりかえり自体評価、次回へ反映</p></div>
+                <div class="step-item" data-step="7"><h4>実行</h4><p>アクション実行、結果確認</p></div>
+            </div>
+            <p style="margin-top: 25px;">このサイクルで<strong>小さな実験を積み重ねる</strong>ことがチームを進化させます。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-target"/></svg>ふりかえりの3つの段階</h2>
+            <p>チームの成長を支える段階的アプローチを図解</p>
+            <div class="stages-diagram">
+                <div class="stage-item">
+                    <span class="stage-number">1</span>
+                    <h4>立ち止まる</h4>
+                    <p>日常業務から離れ、チーム状況を客観視。</p>
+                    <p style="margin-top: 10px;"><strong>目的:</strong> 全体像把握、現状共有</p>
+                </div>
+                <div class="stage-item">
+                     <span class="stage-number">2</span>
+                    <h4>チーム成長加速</h4>
+                    <p>コミュニケーションと信頼関係を構築。</p>
+                     <p style="margin-top: 10px;"><strong>目的:</strong> 相互理解、透明性向上</p>
+               </div>
+                <div class="stage-item">
+                     <span class="stage-number">3</span>
+                    <h4>プロセス改善</h4>
+                    <p>信頼を土台に、価値創出プロセスを変更。</p>
+                    <p style="margin-top: 10px;"><strong>目的:</strong> 効率化、小さな実験、改善定着</p>
+                </div>
+            </div>
+            <p style="margin-top: 25px;"><strong>「立ち止まる」</strong>から始め、基盤を固めて<strong>「プロセス改善」</strong>へ進みます。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-users"/></svg>効果的なふりかえりのマインドセット</h2>
+            <p>チームの変化と成長を加速させる6つの考え方</p>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-check"/></svg>受容する</h4><p>出来事をチームとして受け止め客観視。「私たちはどうすれば」</p></div>
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-puzzle"/></svg>多角的に捉える</h4><p>多様な側面を認識し、異なる視点を引き出す。</p></div>
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-rocket"/></svg>学びを祝う</h4><p>失敗を「学び」「チャンス」と捉え、共有文化を育む。</p></div>
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-level"/></svg>小さな一歩</h4><p>完璧を目指さず、1%でも変化を起こせる行動を選択。</p></div>
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-lightbulb"/></svg>実験する</h4><p>不確実な「実験」に挑戦し、壁を破る。</p></div>
+                <div class="card"><h4><svg class="icon"><use xlink:href="#icon-chat"/></svg>高速フィードバック</h4><p>結果のFBを早く得て、次の改善へ繋げる。</p></div>
+            </div>
+             <p style="margin-top: 25px;">技術や手法だけでなく、これらの<strong>考え方</strong>が成長の基盤です。</p>
+        </section>
+
+        <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-setting"/></svg>ふりかえり手法の例</h2>
+             <p>代表的な手法と簡単な説明 (抜粋)</p>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; font-size: 15px;">
+                 <div class="card"><h4>KPT</h4><p>Keep/Problem/Try 定番</p></div>
+                 <div class="card"><h4>YWT</h4><p>やった/わかった/次やる シンプル</p></div>
+                 <div class="card"><h4>Fun/Done/Learn</h4><p>楽しかった/できた/学んだ ポジティブ</p></div>
+                 <div class="card"><h4>5つのなぜ</h4><p>原因深掘り</p></div>
+                 <div class="card"><h4>タイムライン</h4><p>時系列で事実・感情</p></div>
+                 <div class="card"><h4>ドット投票</h4><p>アイデア優先度決定</p></div>
+                 <div class="card"><h4>熱気球/帆船</h4><p>メタファで発想</p></div>
+                 <div class="card"><h4>SMART</h4><p>アクション具体化</p></div>
+             </div>
+             <h3 style="font-size: 17px; margin-top: 25px; color: #cbd5e1;">その他多数の手法あり</h3>
+             <p style="font-size: 14px; line-height: 1.8; color: #9ca3af;">DPA / ハピネスレーダー / Celebration Grid / +/Δ / 希望と懸念 / 感謝 / 小さなカイゼンアイデア / アクションフォローアップ / 信号機 など</p>
+             <p style="margin-top: 20px;">状況や目的に応じて<strong>まず1つから</strong>試してみましょう。</p>
+        </section>
+
+         <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-puzzle"/></svg>手法の組み合わせ例</h2>
+             <p>目的別の効果的な組み合わせパターン</p>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                 <div class="card highlight">
+                     <h4><svg class="icon"><use xlink:href="#icon-level"/></svg>初めての場合</h4>
+                     <p><strong>DPA → KPT/YWT → +/Δ</strong></p>
+                     <p style="font-size: 14px; color: #9ca3af;">ルール合意 → 基本体験 → 改善</p>
+                 </div>
+                 <div class="card highlight">
+                     <h4><svg class="icon"><use xlink:href="#icon-setting"/></svg>定期的な見直し</h4>
+                     <p><strong>DPA → Action Follow → 5 Whys</strong></p>
+                     <p style="font-size: 14px; color: #9ca3af;">効果検証 → 深掘り</p>
+                 </div>
+                 <div class="card highlight">
+                     <h4><svg class="icon"><use xlink:href="#icon-chat"/></svg>コミュニケーション強化</h4>
+                     <p><strong>感謝 → Team Story → 質問の輪</strong></p>
+                     <p style="font-size: 14px; color: #9ca3af;">雰囲気作り → 現状可視化 → 合意形成</p>
+                 </div>
+                 <div class="card highlight">
+                     <h4><svg class="icon"><use xlink:href="#icon-puzzle"/></svg>根深い問題解決</h4>
+                     <p><strong>希望/懸念 → 5 Whys → SMART</strong></p>
+                     <p style="font-size: 14px; color: #9ca3af;">洗い出し → 原因深掘り → 具体化</p>
+                 </div>
+             </div>
+            <p style="margin-top: 25px;">チームに合わせて<strong>柔軟に調整・実験</strong>し、組み合わせ自体も改善しましょう。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-users"/></svg>ふりかえりのファシリテーション</h2>
+            <p>チームの対話を促し、アイデアを引き出す技術</p>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card">
+                     <h4><svg class="icon"><use xlink:href="#icon-lightbulb"/></svg>ファシリテーションとは？</h4>
+                     <p>単なる司会ではなく、<strong>「場を促す」活動</strong>。対話、アイデア創出、決定プロセスを促進し、効果を最大化する。</p>
+                </div>
+                 <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-target"/></svg>ファシリテーターの役割</h4>
+                     <ul>
+                        <li>発言・議論・気づきを促す</li>
+                        <li>発散と収束を助ける</li>
+                        <li>アクション具体化を支援</li>
+                        <li>場の観察と調整</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-users"/></svg>みんながファシリテーター</h4>
+                     <p>チーム全員で担う。互いに補い協力。</p>
+                     <p style="font-size: 14px; color: #9ca3af; margin-top: 5px;"><strong>利点:</strong> 持続可能, 多様な視点, 能力向上, 当事者意識UP</p>
+                 </div>
+                 <div class="card" style="grid-column: 1 / -1;"> {/* Span full width */}
+                     <h4><svg class="icon"><use xlink:href="#icon-check"/></svg>心構え</h4>
+                     <p><strong>1. 気負わない:</strong> 完璧を目指さず助けを求める。失敗も経験。</p>
+                     <p><strong>2. 正解を求めない:</strong> 結論を持たずチームの力を信頼する。</p>
+                 </div>
+            </div>
+             <p style="margin-top: 20px;">特定個人のスキルではなく、<strong>チーム全員で育む文化</strong>です。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-online"/></svg>オンラインふりかえりのポイント</h2>
+            <p>効果的なリモート実施のための注意点とツール</p>
+             <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-setting"/></svg>7つの注意点 (抜粋)</h4>
+                    <ol style="font-size: 15px;">
+                         <li>事前準備を念入りに (ツール確認, 接続テスト)</li>
+                         <li>時間を多めに確保 (オフラインx1.2〜1.5)</li>
+                         <li>テキストと音声/映像の併用 (チャット/ボード活用)</li>
+                         <li>オンラインホワイトボード活用 (Miro, MURALなど)</li>
+                         <li>明確な指示と画面共有</li>
+                    </ol>
+                </div>
+                 <div class="card">
+                     <h4><svg class="icon"><use xlink:href="#icon-check"/></svg>活用できるツール例</h4>
+                     <p><strong>通話/会議:</strong> Zoom, Teams, Meet</p>
+                    <p><strong>チャット:</strong> Slack, Teams, Discord</p>
+                    <p><strong>ホワイトボード:</strong> Miro, MURAL, Jamboard</p>
+                    <h4 style="margin-top: 15px; color: #cbd5e1;">ボード機能例:</h4>
+                    <ul style="font-size: 14px;">
+                        <li>多様な付箋, テンプレート</li>
+                        <li>同時編集, カーソル表示</li>
+                        <li>投票, タイマー, リアクション</li>
+                    </ul>
+                </div>
+            </div>
+             <p style="margin-top: 25px;">オンラインの制約を理解し、<strong>ツールの特性と工夫</strong>で効果を高めましょう。</p>
+        </section>
+
+         <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-faq"/></svg>よくある悩みと解決策</h2>
+             <p>実践の壁を乗り越えるヒント</p>
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                 <div class="card q-card"><h4>Q. 意見が出ない…</h4><p>場作り(DPA)、匿名性(付箋)、全員発言(感謝)、心理的安全性向上を試す。</p></div>
+                 <div class="card q-card"><h4>Q. 声が大きい人に…</h4><p>付箋活用、ラウンドロビン。ファシリテーターが促す。平等な雰囲気作り。</p></div>
+                 <div class="card q-card"><h4>Q. アクション未実施…</h4><p>「SMART」で具体化。すぐ着手できる小さな一歩に。チームでフォロー。</p></div>
+                 <div class="card q-card"><h4>Q. 問題が出ない…</h4><p>成功を祝福！「さらに伸ばす」視点。理想とのギャップを見る。手法を変える。</p></div>
+                 <div class="card q-card"><h4>Q. 全員揃わない…</h4><p>極力スキップしない。時間調整 or 不在実施検討。定期的発生なら日時見直し。</p></div>
+                 <div class="card q-card"><h4>Q. アクションは成功必須？</h4><p>成功より「実行」が大事。「実験」と捉え、まずやってみる。失敗から学ぶ。</p></div>
+             </div>
+            <p style="margin-top: 20px;">悩みは成長の証。<strong>試行錯誤と継続</strong>が鍵です。</p>
+        </section>
+
+         <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-scrum"/></svg>スクラムとふりかえり</h2>
+             <p>スプリントレトロスペクティブの位置づけ</p>
+             <div class="card highlight" style="max-width: 800px; margin: 20px auto; text-align: left;">
+                 <h4><svg class="icon"><use xlink:href="#icon-scrum"/></svg>スプリントレトロスペクティブとは</h4>
+                 <p>スクラムガイド：「品質と効果を高める方法を計画する場」。チームが自らプロセスを検査し、次スプリントの改善策を計画する重要なイベント。</p>
+             </div>
+
+            <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-setting"/></svg>検査内容</h4>
+                    <p>個人、相互作用、プロセス、ツール、完成の定義など。</p>
+                </div>
+                 <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-check"/></svg>成果物</h4>
+                     <p>チームの「効果」を高める改善アクションアイテム。</p>
+                 </div>
+                 <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-chat"/></svg>話し合うこと</h4>
+                     <p>うまくいった事、問題、解決/未解決策。仮説と真因探求。</p>
+                 </div>
+                 <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-users"/></svg>時間とSM役割</h4>
+                    <p><strong>時間:</strong> 1ヶ月SPで最大3h (比例短縮)。<br/><strong>SM:</strong> 開催保証、生産性向上支援。</p>
+                 </div>
+            </div>
+             <p style="margin-top: 20px;">本書の原則や手法を活用し、<strong>効果的なレトロスペクティブ</strong>を実現しましょう。</p>
+        </section>
+
+         <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-level"/></svg>ふりかえりの守破離</h2>
+             <p>熟達への段階的なアプローチ - 「本(本質)を忘るな」</p>
+             <div class="shuhari-diagram">
+                <div class="shuhari-stage">
+                    <h4>守 (しゅ)</h4>
+                    <p>基本を守る。型どおりに実践し、基本パターンを習得する段階。</p>
+                </div>
+                <div class="shuhari-stage">
+                    <h4>破 (は)</h4>
+                    <p>型を破る。様々な手法を試し、「実験」し、パターンを蓄積する段階。</p>
+                </div>
+                <div class="shuhari-stage">
+                    <h4>離 (り)</h4>
+                    <p>型から離れる。本質を理解し、自在に創造・応用する段階。</p>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">地道な実践と継続的な学びによる<strong>螺旋状の成長</strong>プロセスです。</p>
+        </section>
+
+         <section class="slide">
+             <h2><svg class="icon"><use xlink:href="#icon-share"/></svg>ふりかえりを組織に広げる</h2>
+             <p>チームから組織全体への段階的アプローチ</p>
+             <h3><svg class="icon"><use xlink:href="#icon-rocket"/></svg>広めるためのヒント</h3>
+             <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-lightbulb"/></svg>① 姿と結果を見せる</h4>
+                    <p>見学機会を提供。プロセス、雰囲気、成果を体験してもらう。</p>
+                </div>
+                <div class="card">
+                    <h4><svg class="icon"><use xlink:href="#icon-level"/></svg>② 小さく始める</h4>
+                    <p>多忙なチームは短時間から。既存会議の最後など。定着後に拡大。</p>
+                </div>
+                <div class="card">
+                     <h4><svg class="icon"><use xlink:href="#icon-users"/></svg>③ 興味ある人から</h4>
+                     <p>トップダウンでなく、希望者を募り実践。成果を共有し広げる。</p>
+                 </div>
+             </div>
+
+             <h3 style="font-size: 17px; margin-top: 25px; color: #cbd5e1;">組織への展開ステップ（例）</h3>
+             <ol style="font-size: 15px; max-width: 600px;">
+                <li>小さな成功を作る (1チームで定着・効果実感)</li>
+                <li>見える化と共有 (見学会などで効果を見せる)</li>
+                <li>興味のある人を支援 (新規チーム/メンバーをサポート)</li>
+                <li>コミュニティ形成 (情報共有・相互学習促進)</li>
+             </ol>
+             <p style="margin-top: 20px;">強制ではなく<strong>自発的な参加</strong>を促し、価値を実感してもらいましょう。</p>
+        </section>
+
+        <section class="slide">
+            <h2><svg class="icon"><use xlink:href="#icon-flag"/></svg>まとめ - アクションリスト</h2>
+            <p>ふりかえりを始め、継続し、成長させるために</p>
+
+             <div class="card highlight" style="max-width: 800px; margin: 20px auto; text-align: center; border-color: #a78bfa;">
+                 <h4>ふりかえりはチームの「成長エンジン」</h4>
+                 <p>定期的な「立ち止まり、対話し、小さな変化」が、コミュニケーション、問題解決、自律性、創造性を高めます。</p>
+             </div>
+
+
+            <h3><svg class="icon"><use xlink:href="#icon-check"/></svg>今日から始める5つのアクション</h3>
+            <ol style="max-width: 700px; margin-top: 20px;">
+                <li><strong>時間を確保する:</strong> カレンダーに定例登録し、原則スキップしない。</li>
+                <li><strong>ルールを決める:</strong> チームで簡単な約束事 (DPA等) を作る。</li>
+                <li><strong>小さく実行可能なActionを決める:</strong> SMART等を参考に1〜3つ具体化。</li>
+                <li><strong>Actionをすぐ実行する:</strong> 次のふりかえりまで待たない。</li>
+                <li><strong>「ふりかえりのふりかえり」を行う:</strong> 毎回の最後に短時間で良いので実施。</li>
+            </ol>
+
+            <p style="font-weight: 600; font-size: 1.2em; margin-top: 30px; color: #6ee7b7;">さあ、ふりかえりを始めましょう！</p>
+            <p>完璧を目指さず、まず小さく。<strong>試行錯誤を続け、継続する</strong>ことが最も重要です。</p>
+        </section>
+
+    </div>
+
+    <button id="prev" class="nav-button" title="前のスライド (←/PageUp)">‹</button>
+    <button id="next" class="nav-button" title="次のスライド (→/PageDown/Space)">›</button>
+    <div class="slide-counter" id="slide-counter">1 / 14</div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const slideCounter = document.getElementById('slide-counter');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlideCounter() {
+            slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function applySlideClasses(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                // Trigger reflow to restart animation - slightly more reliable way
+                void slide.offsetWidth; // Access offsetWidth to force reflow
+
+                if (i === index) {
+                    slide.classList.add('active');
+                    // Reset scroll position when slide becomes active
+                    slide.scrollTop = 0;
+                }
+            });
+        }
+
+        function showSlide(index) {
+            // Bounds check
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+
+            if (index === currentSlide && slides[index].classList.contains('active')) return; // No change if already active
+
+            currentSlide = index;
+            applySlideClasses(currentSlide); // Apply 'active' class and trigger animations
+            updateSlideCounter();
+
+            // Update button states
+            prevButton.disabled = currentSlide === 0;
+            nextButton.disabled = currentSlide === totalSlides - 1;
+        }
+
+        // Event Listeners
+        prevButton.addEventListener('click', () => showSlide(currentSlide - 1));
+        nextButton.addEventListener('click', () => showSlide(currentSlide + 1));
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (event) => {
+            // Ignore key events if focused on input elements
+            const activeElement = document.activeElement;
+            if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) {
+                 return;
+            }
+
+             let targetSlide = currentSlide;
+            let slideChanged = false;
+            switch (event.key) {
+                case 'ArrowLeft':
+                case 'PageUp':
+                    if (currentSlide > 0) {
+                        targetSlide--;
+                        slideChanged = true;
+                    }
+                    break;
+                case 'ArrowRight':
+                case 'PageDown':
+                case ' ': // Space bar
+                    if (currentSlide < totalSlides - 1) {
+                        targetSlide++;
+                        slideChanged = true;
+                    }
+                    break;
+                case 'Home':
+                     if (currentSlide !== 0) {
+                         targetSlide = 0;
+                         slideChanged = true;
+                     }
+                     break;
+                case 'End':
+                     if (currentSlide !== totalSlides - 1) {
+                         targetSlide = totalSlides - 1;
+                         slideChanged = true;
+                     }
+                     break;
+                 default:
+                     return; // Do nothing for other keys
+            }
+
+            if (slideChanged) {
+                 event.preventDefault(); // Prevent default browser behavior (scrolling)
+                 showSlide(targetSlide);
+            }
+        });
+
+        // Initial setup
+        // Defer initial class application slightly to ensure transition/animation works on load
+        requestAnimationFrame(() => {
+            applySlideClasses(0);
+            updateSlideCounter();
+            prevButton.disabled = true;
+            nextButton.disabled = currentSlide === totalSlides - 1;
+        });
+
+    </script>
+
+</body>
+</html>
