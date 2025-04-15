@@ -3,587 +3,979 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【ネオンスタイル版】推しエコノミー：「仮想一等地」が変えるエンタメの未来</title>
+    <title>推しエコノミー：「仮想一等地」が変えるエンタメの未来</title>
     <style>
-        /* Reset and Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Poppins:wght@500;700&display=swap'); /* Removed 900 weight */
+        /* Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
         :root {
-            /* Neon Colors */
-            --neon-blue: #00f5ff;
-            --neon-pink: #ff1493;
-            --neon-green: #39ff14;
-            --neon-yellow: #fff000;
-            --neon-purple: #a020f0;
-
-            /* Background & Base Text */
-            --background-color: #0a0a0a; /* Very dark background */
-            --text-color: #f0f0f0; /* Bright base text */
-            --text-muted-color: #a0a0a0; /* Muted gray */
-
-            /* Glow Effects - adjust spread and color as needed */
-            --glow-blue: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px var(--neon-blue);
-            --glow-pink: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink), 0 0 15px var(--neon-pink);
-            --glow-green: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green), 0 0 15px var(--neon-green);
-            --glow-yellow: 0 0 5px var(--neon-yellow), 0 0 10px var(--neon-yellow), 0 0 15px var(--neon-yellow);
-            --glow-purple: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple), 0 0 15px var(--neon-purple);
+            --bg-color: #ffffff;
+            --text-color: #1f2937; /* ダークグレー */
+            --primary-color: #4f46e5; /* Indigo */
+            --accent-color: #14b8a6; /* Teal */
+            --light-gray: #f3f4f6;
+            --medium-gray: #d1d5db;
+            --dark-gray: #4b5563;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 8px;
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Noto Sans JP', sans-serif;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.7; }
+        /* Dark theme option (Uncomment to enable) */
+        /*
+        :root {
+            --bg-color: #1f2937;
+            --text-color: #f3f4f6;
+            --primary-color: #6366f1;
+            --accent-color: #2dd4bf;
+            --light-gray: #374151;
+            --medium-gray: #6b7280;
+            --dark-gray: #9ca3af;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        */
+
+        html {
+            scroll-behavior: smooth; /* Optional: smooth scroll for internal links */
+        }
+
+        body {
+            font-family: var(--font-body), sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            font-size: 16px;
+        }
 
         /* Presentation Container */
-        .presentation { position: relative; width: 100%; height: 100%; overflow: hidden; }
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden; /* Hide slides outside the viewport */
+        }
 
-        /* Slide Styles - Neon */
+        .slides-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out; /* Slide transition */
+        }
+
+        /* Slide Styles */
         .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 50px 60px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            background-color: var(--background-color);
-            opacity: 0; visibility: hidden; transform-origin: center center;
-            transition: opacity 0.6s ease-out, visibility 0.6s; /* Faster fade */
-            overflow-y: auto; overflow-x: hidden;
+            flex: 0 0 100%; /* Each slide takes full width */
+            width: 100%;
+            height: 100%;
+            padding: 3rem 5%; /* More padding for better spacing */
+            overflow-y: auto; /* Allow scrolling within a slide if content overflows */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically by default */
+            opacity: 0; /* Initially hidden for animation */
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            visibility: hidden;
+            position: absolute; /* Position slides absolutely for overlay effect */
+            top: 0;
+            left: 0;
         }
-        .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 1; }
-        .slide.next-prep, .slide.prev-prep { opacity: 0; visibility: hidden; transform: none; }
 
-        /* Title Slide Specific Style - Neon */
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative; /* Active slide takes space */
+            z-index: 1;
+        }
+
+        .slide-content {
+            max-width: 1100px; /* Limit content width */
+            width: 100%;
+            margin: 0 auto; /* Center content horizontally */
+            animation: fadeInContent 0.8s ease-in-out forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide Specific Styles */
         .title-slide {
-             background: linear-gradient(145deg, #1a1a1a 0%, #000 100%); /* Dark gradient */
-             color: white; border-radius: 0; box-shadow: none;
-        }
-        .title-slide h1 {
-            color: var(--neon-blue); /* Neon title */
-            text-shadow: var(--glow-blue);
-        }
-        .title-slide h2 {
-             color: var(--neon-pink); /* Neon subtitle */
-             text-shadow: var(--glow-pink);
-             border: none; padding-bottom: 0; display: block; /* Remove underline */
-        }
-        .title-slide p { color: var(--text-color); text-shadow: none; }
-
-        /* Content Styling */
-        .slide > * {
-            max-width: 980px; width: 100%; margin-bottom: 18px;
-            /* Fading in content */
-             opacity: 0; transform: translateY(15px);
-             animation: fadeInSlideContent 0.5s ease-out 0.4s forwards;
-        }
-        .slide > *:last-child { margin-bottom: 0; }
-        @keyframes fadeInSlideContent { to { opacity: 1; transform: translateY(0); } }
-        .slide.active > *:nth-child(2) { animation-delay: 0.45s; }
-        .slide.active > *:nth-child(3) { animation-delay: 0.5s; }
-        .slide.active > *:nth-child(4) { animation-delay: 0.55s; }
-        .slide.active > *:nth-child(5) { animation-delay: 0.6s; }
-
-
-        /* --- Typography - Neon Adaptation --- */
-        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
-        p, li { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; }
-
-        /* タイトル (h1 on title slide) */
-        .title-slide h1 { font-size: 32px; font-weight: 700; /* Bold (900 too heavy for neon) */ line-height: 1.3; margin-bottom: 1rem; }
-        /* サブタイトル (h2 on title slide) */
-        .title-slide h2 { font-size: 20px; font-weight: 700; /* Bold */ margin-bottom: 2rem; }
-        .title-slide p { font-size: 16px; font-weight: 400; /* Normal */ text-align: center; }
-
-        /* セクション見出し (h2 on content slides) */
-        h2 {
-            font-size: 24px; font-weight: 700; /* Bold */
-            margin-bottom: 1.5rem; padding-bottom: 0.5rem;
-            color: var(--neon-pink); /* Neon Pink for section titles */
-            text-shadow: var(--glow-pink);
-            border-bottom: 1px solid var(--neon-pink); /* Neon border */
-            display: inline-block;
-        }
-        /* カード内の見出し (h3) */
-        h3 {
-            font-size: 18px; font-weight: 700; /* Bold */
-            margin-bottom: 0.6rem;
-            color: var(--neon-green); /* Neon Green for card titles */
-            text-shadow: var(--glow-green);
-            text-align: left;
-        }
-        /* カード内のサブ見出し (h4) */
-        h4 {
-            font-size: 16px; font-weight: 700; /* Bold */
-            margin-bottom: 0.4rem;
-            color: var(--neon-blue); /* Neon Blue for subheads */
-            text-shadow: var(--glow-blue);
-            text-align: left;
-            margin-top: 0.75rem;
-        }
-
-        /* 本文 (p, li) */
-        p { font-size: 16px; font-weight: 400; /* Normal */ color: var(--text-color); line-height: 1.8; text-align: left; margin-bottom: 0.75rem; }
-        .slide > p:first-of-type { text-align: center; margin-bottom: 1.5rem; }
-        .small-text { font-size: 14px; color: var(--text-muted-color); text-align: center; }
-
-        /* Lists */
-        ul, ol { text-align: left; margin: 0.5rem 0 1rem 0; font-size: 16px; line-height: 1.8; list-style: none; padding-left: 1.5rem; }
-        li { margin-bottom: 0.4rem; position: relative; padding-left: 1.5em; font-weight: 400; }
-        ul li::before { content: '>'; /* Neon style marker */ position: absolute; left: 0; top: 0; color: var(--neon-green); font-weight: 700; text-shadow: var(--glow-green); }
-        ol { counter-reset: list-counter; }
-        ol li { counter-increment: list-counter; }
-        ol li::before { content: counter(list-counter); position: absolute; left: 0; top: 0.1em; background-color: transparent; color: var(--neon-green); font-size: 1em; font-weight: 700; border-radius: 0; width: auto; height: auto; text-align: left; line-height: inherit; display: inline; text-shadow: var(--glow-green); }
-
-        /* Grid Container */
-        .grid-container { display: grid; gap: 1.25rem; width: 100%; margin: 1.25rem 0; }
-        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); } }
-
-        /* --- Card Styles: Neon --- */
-        .card {
-            background-color: rgba(20, 20, 20, 0.5); /* Dark transparent background */
-            border-radius: 8px;
-            padding: 1.25rem;
-            box-shadow: none; /* Remove base shadow */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            text-align: left;
-            border: 1px solid rgba(var(--rgb-neon-purple, 160, 32, 240), 0.5); /* Subtle Neon Purple border */
-             box-shadow: inset 0 0 10px rgba(var(--rgb-neon-purple, 160, 32, 240), 0.2); /* Inner glow */
-             /* Variable for border color */
-            --rgb-neon-purple: 160, 32, 240;
-        }
-        .card:hover {
-            border-color: rgba(var(--rgb-neon-purple), 1);
-            box-shadow: 0 0 15px rgba(var(--rgb-neon-purple), 0.6), inset 0 0 15px rgba(var(--rgb-neon-purple), 0.3);
-        }
-        .card h3 { color: var(--neon-green); text-shadow: var(--glow-green); }
-        .card h4 { color: var(--neon-blue); text-shadow: var(--glow-blue); }
-        .card p, .card ul, .card ol { color: var(--text-color); font-size: 15px; font-weight: 400; }
-        .card ul, .card ol { margin-top: 0.4rem; padding-left: 1.25rem; }
-        .card ul li::before { color: var(--neon-green); text-shadow: var(--glow-green);}
-        .card ol li::before { color: var(--neon-green); text-shadow: var(--glow-green); background-color: transparent;}
-
-        /* Specific Card Types - Adjust border/glow */
-        .accent-card { --rgb-accent-card: 0, 245, 255; border-left: 3px solid var(--neon-blue); border-top: 1px solid rgba(var(--rgb-accent-card), 0.5); border-right: 1px solid rgba(var(--rgb-accent-card), 0.5); border-bottom: 1px solid rgba(var(--rgb-accent-card), 0.5); box-shadow: inset 0 0 8px rgba(var(--rgb-accent-card), 0.2);}
-        .data-card { --rgb-data-card: 255, 20, 147; border-left: 3px solid var(--neon-pink); border-top: 1px solid rgba(var(--rgb-data-card), 0.5); border-right: 1px solid rgba(var(--rgb-data-card), 0.5); border-bottom: 1px solid rgba(var(--rgb-data-card), 0.5); margin-top: 1.5rem; box-shadow: inset 0 0 8px rgba(var(--rgb-data-card), 0.2);}
-        .data-card h4 { color: var(--neon-pink); text-shadow: var(--glow-pink); }
-
-        /* Icon Box - Neon */
-        .icon-box {
-            display: flex; align-items: center; justify-content: center;
-            width: 36px; height: 36px;
-            border: 1px solid var(--neon-blue);
-            border-radius: 4px;
-            margin-bottom: 0.75rem;
-            background-color: transparent;
-             box-shadow: var(--glow-blue);
-        }
-        .icon-box svg { width: 18px; height: 18px; fill: var(--neon-blue); filter: drop-shadow(var(--glow-blue));} /* Apply glow to icon */
-
-        /* Navigation Buttons & Counter - Neon */
-        .nav-button {
-            position: fixed; bottom: 20px; width: 50px; height: 50px; font-size: 1.5em;
-            font-weight: bold; color: var(--neon-yellow); background-color: transparent;
-            border: 1px solid var(--neon-yellow); border-radius: 50%; /* Circle border */
-            cursor: pointer; z-index: 100;
-            transition: all 0.3s ease; box-shadow: var(--glow-yellow);
-            display: flex; justify-content: center; align-items: center;
-            text-shadow: var(--glow-yellow);
-        }
-        .nav-button:hover {
-            background-color: rgba(var(--rgb-yellow, 255, 240, 0), 0.1);
+            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
             color: white;
-            border-color: white;
-            box-shadow: 0 0 8px var(--neon-yellow), 0 0 15px var(--neon-yellow), 0 0 20px var(--neon-yellow);
-            text-shadow: 0 0 8px var(--neon-yellow), 0 0 15px var(--neon-yellow);
+            text-align: center;
         }
-        .nav-button:active { transform: scale(0.95); }
-        .nav-button:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--text-muted-color); color: var(--text-muted-color); box-shadow: none; text-shadow: none; }
-        #prev { left: 20px; } #next { right: 20px; }
+
+        .title-slide h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem; /* 48px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .title-slide h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .title-slide p {
+            font-size: 1.25rem; /* 20px */
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .conclusion-slide {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .conclusion-slide h2 {
+            font-family: var(--font-heading);
+            font-size: 2.25rem; /* 36px */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .conclusion-slide p {
+            font-size: 1.125rem; /* 18px */
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .conclusion-slide .final-title {
+             font-size: 1.25rem; /* 20px */
+             font-weight: 700;
+             margin-top: 2rem;
+        }
+
+
+        /* General Content Styles */
+        h2.slide-title {
+            font-family: var(--font-heading);
+            font-size: 1.75rem; /* 28px -> Adjusted from 24px for more impact */
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem; /* Increased spacing */
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            text-align: left; /* Align title left */
+        }
+
+        h3.card-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem; /* 20px -> Adjusted from 18px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+         h3.section-title {
+            font-family: var(--font-heading);
+            font-size: 1.375rem; /* 22px */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        h3.section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 80%;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+        }
+
+
+        p, li {
+            font-size: 1rem; /* 16px */
+            font-weight: 400; /* Normal */
+            margin-bottom: 0.75rem; /* Space between paragraphs/list items */
+        }
+
+        ul, ol {
+            padding-left: 1.5rem; /* Indent lists */
+            margin-bottom: 1rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong, b {
+            font-weight: 700; /* Bold */
+            color: var(--primary-color); /* Highlight strong text */
+        }
+
+        /* Layout Components */
+        .grid {
+            display: grid;
+            gap: 2rem; /* Consistent gap */
+            margin-bottom: 2rem;
+        }
+
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(1, 1fr); } /* Default to 1 column */
+        .grid-cols-3 { grid-template-columns: repeat(1, 1fr); } /* Default to 1 column */
+        .grid-cols-4 { grid-template-columns: repeat(1, 1fr); } /* Default to 1 column */
+
+        /* Card Style */
+        .card {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius);
+            padding: 1.75rem; /* Increased padding */
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--light-gray);
+            height: 100%; /* Make cards in a grid have same height */
+            display: flex;
+            flex-direction: column;
+        }
+        .card ul {
+             padding-left: 1.2rem;
+        }
+
+        /* Accent Box Style */
+        .accent-box {
+            background-color: #eef2ff; /* Lighter Indigo background */
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .accent-box h3, .accent-box h4 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .accent-box p, .accent-box li {
+            color: var(--dark-gray);
+        }
+
+        /* Data Point Box Style */
+        .data-point {
+            background-color: var(--light-gray);
+            border-left: 5px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .data-point h4 {
+            font-family: var(--font-heading);
+            font-size: 1.125rem; /* 18px */
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .data-point ul {
+             padding-left: 1.2rem;
+        }
+
+        /* Icon Styles */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+            vertical-align: middle;
+            margin-right: 0.5em; /* Space after icon */
+        }
+
+        .icon-box {
+            display: flex; /* Use flex for centering */
+            align-items: center;
+            justify-content: center;
+            width: 56px; /* Slightly larger */
+            height: 56px;
+            background-color: #eef2ff; /* Light primary color background */
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            color: var(--primary-color); /* Icon color */
+        }
+
+        .icon-box svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* Diagram Styles */
+        /* Simple Flow/Step Diagram */
+        .step-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            width: 100%; /* Ensure diagram takes full width */
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column; /* Stack icon/title and text */
+            align-items: center;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            width: 100%; /* Full width on mobile */
+            max-width: 300px; /* Max width for steps */
+            border: 1px solid var(--light-gray);
+        }
+
+        .step-connector {
+            width: 2px;
+            height: 40px;
+            background-color: var(--accent-color);
+            margin: -0.5rem 0; /* Overlap slightly with steps */
+        }
+        .step-connector-horizontal {
+            width: 50px; /* Width of horizontal connector */
+            height: 2px;
+            background-color: var(--accent-color);
+            margin: 0 1rem; /* Space around connector */
+            display: none; /* Hidden by default, shown on larger screens */
+        }
+
+        .step .icon-box {
+            margin-bottom: 0.75rem;
+        }
+
+        .step h4 {
+            font-family: var(--font-heading);
+            font-size: 1.125rem; /* 18px */
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            font-size: 0.9rem; /* 14.4px */
+            color: var(--dark-gray);
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* Comparison Diagram (Two Columns) */
+        .comparison-diagram {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column by default */
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-column {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--light-gray);
+        }
+
+        .comparison-column h4 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem; /* 20px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+         .comparison-column ul {
+             padding-left: 1.2rem;
+         }
+        .comparison-column li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .comparison-column li::before {
+             content: '✓'; /* Check mark */
+             position: absolute;
+             left: 0;
+             top: 1px;
+             color: var(--accent-color);
+             font-weight: bold;
+        }
+
+        /* Specific Colors for US/China Comparison */
+        .comparison-column.us h4 { color: #2563eb; } /* Blue */
+        .comparison-column.china h4 { color: #dc2626; } /* Red */
+        .comparison-column.us { border-left: 5px solid #2563eb; background-color: #eff6ff;}
+        .comparison-column.china { border-left: 5px solid #dc2626; background-color: #fee2e2;}
+        .comparison-column.us li::before { color: #2563eb; }
+        .comparison-column.china li::before { color: #dc2626; }
+
+        /* Specific Colors for Old/New Consumption */
+        .comparison-column.old h4 { color: var(--dark-gray); }
+        .comparison-column.new h4 { color: var(--primary-color); }
+        .comparison-column.old { border-left: 5px solid var(--dark-gray); }
+        .comparison-column.new { border-left: 5px solid var(--primary-color); }
+        .comparison-column.old li::before { content: '○'; color: var(--dark-gray); }
+        .comparison-column.new li::before { content: '★'; color: var(--primary-color); }
+
+        /* Navigation Styles */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem; /* Adjust padding */
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 44px; /* Fixed size */
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .nav-button svg {
+             width: 20px;
+             height: 20px;
+        }
+
+        .prev { left: 15px; }
+        .next { right: 15px; }
+
+        /* Slide Counter */
         .slide-counter {
-            position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5); color: var(--neon-purple);
-            padding: 5px 15px; border-radius: 4px; font-size: 13px; z-index: 100;
-            border: 1px solid var(--neon-purple); box-shadow: var(--glow-purple);
-            text-shadow: var(--glow-purple);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.875rem; /* 14px */
+            z-index: 10;
         }
 
-        /* SVG Icon General Style */
-        .icon { width: 1em; height: 1em; display: inline-block; vertical-align: -0.1em; fill: currentColor; margin-right: 0.3em; filter: drop-shadow(0 0 3px currentColor); }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .slide { padding: 30px 20px; }
-            h1 { font-size: 28px; } h2 { font-size: 20px; } h3 { font-size: 17px; } h4 { font-size: 16px; }
-            p, li { font-size: 15px; }
-            .title-slide h1 { font-size: 32px; }
-            .title-slide h2 { font-size: 20px; margin-bottom: 1.5rem;}
-            .title-slide p { font-size: 16px; }
-            .nav-button { width: 40px; height: 40px; font-size: 1.3em; bottom: 15px; }
-            #prev { left: 10px; } #next { right: 10px; }
-            .slide-counter { bottom: 5px; font-size: 12px; padding: 4px 10px; }
+        /* Footer/Copyright (optional, if needed) */
+        .slide-footer {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+            text-align: center;
+            margin-top: auto; /* Push footer to bottom */
+            padding-top: 1rem;
         }
 
-        /* Scrollbar styling - Neon */
-        .slide::-webkit-scrollbar { width: 6px; }
-        .slide::-webkit-scrollbar-track { background: #111; }
-        .slide::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 3px; box-shadow: var(--glow-purple); }
-        .slide::-webkit-scrollbar-thumb:hover { background: #bc00ff; box-shadow: 0 0 8px #bc00ff; }
+
+        /* Responsive Design */
+        @media (min-width: 768px) { /* Medium screens and up */
+            .slide {
+                padding: 4rem 8%;
+            }
+            .title-slide h1 { font-size: 3.75rem; /* 60px */ }
+            .title-slide h2 { font-size: 2rem; /* 32px */ }
+            .title-slide p { font-size: 1.375rem; /* 22px */ }
+
+            .conclusion-slide h2 { font-size: 2.75rem; /* 44px */ }
+            .conclusion-slide p { font-size: 1.25rem; /* 20px */ }
+            .conclusion-slide .final-title { font-size: 1.375rem; /* 22px */ }
+
+            h2.slide-title { font-size: 2rem; /* 32px */ margin-bottom: 3rem;}
+            h3.card-title { font-size: 1.375rem; /* 22px */ }
+            h3.section-title { font-size: 1.5rem; /* 24px */ }
+            p, li { font-size: 1.0625rem; /* 17px */ }
+
+            .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+             /* Make step diagram horizontal */
+            .step-diagram {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start; /* Align items to top for consistent height */
+            }
+            .step {
+                flex: 1; /* Allow steps to grow */
+                margin-bottom: 0;
+                margin-right: 1rem; /* Spacing between steps */
+                 max-width: none; /* Remove max-width */
+            }
+             .step:last-child {
+                 margin-right: 0;
+             }
+            .step-connector {
+                display: none; /* Hide vertical connector */
+            }
+             .step-connector-horizontal {
+                 display: block; /* Show horizontal connector */
+                 align-self: center; /* Center connector vertically */
+                 flex: 0 0 50px; /* Fixed width for connector */
+                 margin: 0 0.5rem;
+             }
+
+            .comparison-diagram {
+                grid-template-columns: 1fr 1fr; /* Two columns */
+            }
+        }
+
+        @media (min-width: 1024px) { /* Large screens and up */
+            .slide {
+                padding: 5rem 10%;
+            }
+            .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+
 
     </style>
 </head>
 <body>
-     <svg width="0" height="0" style="position:absolute">
-      <defs>
-        {/* Icons definitions remain the same */}
-        <symbol id="icon-tv" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.5 4a1.5 1.5 0 00-1.5 1.5v7a1.5 1.5 0 001.5 1.5h13a1.5 1.5 0 001.5-1.5v-7a1.5 1.5 0 00-1.5-1.5h-13zM2 5.5A2.5 2.5 0 014.5 3h11A2.5 2.5 0 0118 5.5v7a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 012 12.5v-7zm10.5 7a.5.5 0 010-1h2a.5.5 0 010 1h-2z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-arrow-right" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-mobile" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 14a1 1 0 11-2 0 1 1 0 012 0zM13 3a1 1 0 10-2 0v1a1 1 0 102 0V3z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-paint-brush" viewBox="0 0 20 20"><path d="M10 3.5a1.5 1.5 0 011.393 2.13l-1.685 4.213a1.5 1.5 0 01-2.816 0L5.207 5.63A1.5 1.5 0 016.6 3.5h3.4z"/><path fill-rule="evenodd" d="M3.5 2a1.5 1.5 0 00-1.414 1.035l-1.82 4.549a1.5 1.5 0 00.69 1.916l2.5 1.25a1.5 1.5 0 001.916-.69l.678-1.696A1.5 1.5 0 017.6 10h4.8a1.5 1.5 0 011.549.916l.678 1.696a1.5 1.5 0 001.916.69l2.5-1.25a1.5 1.5 0 00.69-1.916l-1.82-4.549A1.5 1.5 0 0016.5 2h-13zM2.85 7.78l1.34-3.349a.5.5 0 01.472-.341h11a.5.5 0 01.472.341l1.34 3.35-.94.47L14.5 6.236a.5.5 0 00-.948 0L12 10.5H8L6.448 6.236a.5.5 0 00-.948 0L3.79 8.25l-.94-.47z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-users" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-globe" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.002 6.002 0 0111.336 0H4.332zm.163 4.018a6.002 6.002 0 0111.012 0H4.495zM10 16a5.999 5.999 0 01-5.657-4.018 7.98 7.98 0 0011.314 0A5.999 5.999 0 0110 16zM2 10a7.979 7.979 0 004.495 7.197A7.979 7.979 0 0010 18a7.979 7.979 0 005.505-2.803A7.979 7.979 0 0018 10a7.979 7.979 0 00-2.803-5.505A7.979 7.979 0 0010 2a7.979 7.979 0 00-5.505 2.803A7.979 7.979 0 002 10z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-broadcast" viewBox="0 0 20 20"><path d="M17.13 9.87a6.002 6.002 0 00-11.062-.737 6.002 6.002 0 00-.737 11.062l1.1-.137a4.501 4.501 0 018.3-.55l1.1.137a6.002 6.002 0 00.299-9.775zM10 3a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 3zM7.05 5.05a.75.75 0 011.06 0l1.06 1.06a.75.75 0 11-1.06 1.06L7.05 6.11a.75.75 0 010-1.06zm5.9 0a.75.75 0 011.06 1.06l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06zM5 10a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 015 10zm9.25.75a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5h1.5z"/></symbol>
-        <symbol id="icon-puzzle" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM3 10a7 7 0 1114 0 7 7 0 01-14 0z" clip-rule="evenodd"/><path d="M10 6a4 4 0 100 8 4 4 0 000-8zM9 9a1 1 0 112 0v2a1 1 0 11-2 0V9z"/><path fill-rule="evenodd" d="M10 11.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM9 13a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-vr" viewBox="0 0 20 20"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 6.58A.5.5 0 011 6.5h18a.5.5 0 01.336.886l-3.18 2.624A1.5 1.5 0 0115.5 11H4.5a1.5 1.5 0 01-.656-.89L.664 6.58zM19 4a1 1 0 00-1-1H2a1 1 0 00-1 1v.01A1.5 1.5 0 012.5 5h15A1.5 1.5 0 0119 4.01V4zM1.5 13.5A1.5 1.5 0 013 12h14a1.5 1.5 0 011.5 1.5v2.5a1 1 0 01-1 1H2a1 1 0 01-1-1v-2.5z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-bulb" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 1.897.828 3.603 2.137 4.818A4.94 4.94 0 006 14.5V16a1 1 0 102 0v-1.07A5.002 5.002 0 0010 16a5 5 0 002 1.07V16a1 1 0 102 0v-1.5a4.94 4.94 0 00-.137-1.182C15.172 12.103 16 10.397 16 8.5a6 6 0 00-6-6zm1 15a1 1 0 11-2 0 1 1 0 012 0zm-1-13a4 4 0 110 8 4 4 0 010-8z"/></symbol>
-        <symbol id="icon-forward" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-check-circle" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></symbol>
-        <symbol id="icon-arrow-narrow-right" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></symbol>
-      </defs>
-    </svg>
 
-    <div class="presentation">
+    <div class="presentation-container">
+        <div class="slides-container">
 
-        <div class="slide title-slide active">
-            <h1>推しエコノミー</h1>
-            <h2>「仮想一等地」が変えるエンタメの未来</h2>
-            <p>アニメ・ゲーム・マンガのキャラクター経済圏から見る<br>エンターテイメント産業の新潮流</p>
+            <div class="slide title-slide active">
+                <div class="slide-content">
+                    <h1>推しエコノミー</h1>
+                    <h2>「仮想一等地」が変えるエンタメの未来</h2>
+                    <p>アニメ・ゲーム・マンガのキャラクター経済圏から見る<br>エンターテイメント産業の新潮流</p>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">1. 「推しエコノミー」とは</h2>
+                    <div class="grid grid-cols-2">
+                        <div class="accent-box">
+                            <h3>概念の定義</h3>
+                            <p>ファンが単なる消費者ではなく、コンテンツへの「参加者」として経済活動を行う新しいエンターテイメント経済圏。キャラクター等を「推し」として強く支持し、関係性を軸に経済活動が発生。</p>
+                        </div>
+                        <div class="accent-box">
+                            <h3>キャラクター経済圏</h3>
+                            <p>日本のコンテンツを中心に発展。キャラクターとファンの関係性を基盤とし、グッズ販売だけでなく、体験や参加の機会を含む多様な価値提供が特徴。</p>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20V16"/></svg>日本のコンテンツ市場規模</h4>
+                        <p>アニメ、マンガ、ゲーム等を含む日本のコンテンツ産業は<strong>約12兆円規模</strong>。「推し活」を中心とするファン活動は年々拡大し、特にデジタル領域で成長。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">2. テレビからデジタルプラットフォームへの移行</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--dark-gray);">エンターテイメントの中心が、テレビから動画配信やSNSへ急速に移行。</p>
+
+                    <div class="step-diagram">
+                        <div class="step">
+                            <div class="icon-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+                            </div>
+                            <h4>従来型メディア</h4>
+                            <p>テレビ、雑誌など<br>一方向的コミュニケーション</p>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-connector-horizontal"></div>
+                        <div class="step">
+                            <div class="icon-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </div>
+                            <h4>変化の波</h4>
+                            <p>若者のテレビ離れ、スマホ普及、配信サービスの台頭</p>
+                        </div>
+                         <div class="step-connector"></div>
+                         <div class="step-connector-horizontal"></div>
+                        <div class="step">
+                            <div class="icon-box">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                            </div>
+                            <h4>新たなメディア</h4>
+                            <p>動画配信、SNSなど<br>双方向型プラットフォーム</p>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H16c-.7 2-2 4-4 4s-3.3-2-4-4H2.5"/><path d="M16 16.1V18c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2v-1.9"/><path d="M17 8.9c.7-2 2-4 4-4s3.3 2 4 4"/><path d="M8 3.9V2c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v1.9"/></svg>デジタルシフトの加速</h4>
+                        <ul>
+                            <li>若年層のアニメ視聴経路は、<strong>動画配信がテレビを上回る</strong>。</li>
+                            <li>『鬼滅の刃』はTVとデジタル配信の相乗効果で爆発的人気。</li>
+                            <li>SNSでの盛り上がりがコンテンツ拡散に不可欠。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+             <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">3. ファンの消費行動の変化</h2>
+
+                    <div class="comparison-diagram">
+                        <div class="comparison-column old">
+                            <h4>従来の消費パターン</h4>
+                            <ul>
+                                <li>コンテンツの「<strong>所有</strong>」重視 (DVD, 書籍)</li>
+                                <li><strong>一方向的</strong>な消費 (視聴, 鑑賞)</li>
+                                <li><strong>グッズ購入</strong>が中心</li>
+                                <li>コレクション価値を重視</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-column new">
+                            <h4>新たな消費パターン</h4>
+                            <ul>
+                                <li>「推し」との「<strong>関係性</strong>」重視</li>
+                                <li><strong>双方向的</strong>な参加 (SNS, 二次創作)</li>
+                                <li><strong>体験価値</strong>への投資 (ライブ, イベント)</li>
+                                <li>コミュニティへの帰属意識</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>「推し活」ファンの特徴</h4>
+                        <p>一般消費者と比較して：</p>
+                        <ul>
+                            <li>関連商品への支出が<strong>約3倍</strong></li>
+                            <li>SNSでの情報発信頻度が<strong>約5倍</strong></li>
+                            <li>ファンコミュニティへの積極的参加率が<strong>約7倍</strong></li>
+                            <li>二次創作・UGCへの関与度が高い</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">4. 米中エンタメ産業の覇権競争</h2>
+
+                     <div class="comparison-diagram">
+                        <div class="comparison-column us">
+                            <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>米国型エンタメモデル</h4>
+                            <ul>
+                                <li>IP統合管理と<strong>世界展開</strong> (Disney)</li>
+                                <li><strong>プラットフォーム</strong>戦略 (Netflix)</li>
+                                <li>テクノロジー投資と<strong>AI活用</strong></li>
+                                <li>M&Aによる規模拡大</li>
+                                <li>グローバルIP戦略</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-column china">
+                            <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>中国型エンタメモデル</h4>
+                            <ul>
+                                <li><strong>超巨大国内市場</strong>が基盤</li>
+                                <li>政府と民間の連携</li>
+                                <li>デジタルプラットフォーム統合 (Tencent)</li>
+                                <li><strong>ライブストリーミング</strong>とギフティング</li>
+                                <li>ゲームと動画配信の融合</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>日本の立ち位置</h4>
+                        <ul>
+                            <li>コンテンツの質と独自性は<strong>世界トップクラス</strong> (アニメ等)。</li>
+                            <li>プラットフォーム戦略では<strong>遅れ</strong>。</li>
+                            <li>世界市場シェアは米中に対し相対的に<strong>縮小傾向</strong>。</li>
+                            <li>「クールジャパン」戦略の成果と課題。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">5. 日本エンタメ産業の独自の強み</h2>
+                    <div class="grid grid-cols-3">
+                        <div class="card">
+                            <div class="icon-box">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            </div>
+                            <h3 class="card-title">コンテンツ創造力</h3>
+                            <p>世界トップレベルのアニメ・マンガ・ゲーム制作技術と創造性。物語・キャラ設計の深さと多様性。</p>
+                        </div>
+                        <div class="card">
+                            <div class="icon-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                            <h3 class="card-title">ファン文化の成熟</h3>
+                            <p>二次創作・同人文化によりファンとコンテンツの共創関係が確立。イベントを通じたコミュニティ形成。</p>
+                        </div>
+                        <div class="card">
+                            <div class="icon-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </div>
+                            <h3 class="card-title">クロスメディア展開</h3>
+                            <p>一つのIPを多様なメディアで展開するノウハウ。メディアミックス戦略の先進性。</p>
+                        </div>
+                    </div>
+
+                     <div class="accent-box">
+                        <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.89 1.45.53 1.02a1 1 0 0 0 .83.58l1.1.16c.99.14 1.39 1.38.62 2.08l-.8.73a1 1 0 0 0-.3.94l.19 1.08c.21 1.2-.87 2.15-1.96 1.62l-1-.47a1 1 0 0 0-1 0l-1 .47c-1.09.53-2.17-.42-1.96-1.62l.19-1.08a1 1 0 0 0-.3-.94l-.8-.73c-.77-.7-.37-1.94.62-2.08l1.1-.16a1 1 0 0 0 .83-.58l.53-1.02a1 1 0 0 1 1.78 0zM12 14v8"/><path d="M9 22h6"/></svg>「仮想一等地」の創出</h3>
+                        <p>日本の真の強みは、物理的な場所に依存せず、キャラとファンの関係性を中心とした<strong>「仮想一等地」</strong>を創出できる点。デジタル空間でのコミュニティ形成とエンゲージメント構築能力。</p>
+                    </div>
+
+
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>データで見る日本の強み</h4>
+                        <ul>
+                            <li>世界アニメ市場の日本作品シェア：<strong>約60%</strong></li>
+                            <li>世界コスプレイヤー人口：約4000万人 (日本発コンテンツが<strong>約70%</strong>)</li>
+                            <li>二次創作活動参加者：世界で<strong>約2000万人</strong></li>
+                            <li>日本キャラクタービジネス市場：<strong>約3兆円規模</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">6. 成功事例分析</h2>
+                    <div class="grid grid-cols-2">
+                        <div class="card">
+                            <h3 class="card-title" style="color:#dc2626;">『鬼滅の刃』の経済圏</h3>
+                            <p><strong>経済効果：約1兆円規模</strong></p>
+                            <p><strong>主な成功要因：</strong></p>
+                            <ul>
+                                <li>SNS時代に最適化されたストーリーとキャラ</li>
+                                <li>TVとデジタル配信の相乗効果</li>
+                                <li>高品質なクロスメディア展開（音楽等）</li>
+                                <li>コロナ禍でのタイミング（映画公開）</li>
+                                <li>幅広い層への訴求力</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                             <h3 class="card-title" style="color:#d97706;">『ポケモン』の持続的成功</h3>
+                            <p><strong>累計経済効果：約10兆円以上</strong></p>
+                             <p><strong>持続可能な成長の秘訣：</strong></p>
+                            <ul>
+                                <li>世代を超えたIP運営（親子ファン獲得）</li>
+                                <li>ゲーム・アニメ・カード等の多角展開</li>
+                                <li>デジタル転換の成功 (Pokémon GO)</li>
+                                <li>グローバル展開と各国への最適化</li>
+                                <li>継続的なIP拡張と革新</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h4.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 16.5 22H8a2 2 0 0 1-2-2v-8.64a2 2 0 0 1 .64-1.5L8 7V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3.12"/><path d="M14 10V3.5a1.5 1.5 0 0 1 3 0V10"/></svg>推しエコノミーの成功パターン</h4>
+                        <ul>
+                            <li>キャラクターと世界観の<strong>深さ・魅力</strong></li>
+                            <li>ファンコミュニティの<strong>育成と対話</strong></li>
+                            <li><strong>多様なタッチポイント</strong>設計</li>
+                            <li>デジタルとリアルの<strong>融合体験</strong>提供</li>
+                            <li><strong>長期的関係性</strong>重視のIP運営</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+             <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">7. コロナ禍によるデジタル加速</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--dark-gray);">パンデミックはエンタメ産業のデジタルシフトを数年分早める転換点となった。</p>
+
+                     <div class="comparison-diagram">
+                        <div class="comparison-column" style="border-left-color: var(--primary-color); background-color: #eef2ff;">
+                             <h4 style="color: var(--primary-color);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M12 2v2l-1.5 1.5"/></svg>オンラインシフト</h4>
+                            <ul>
+                                <li>リアルイベント制限 → <strong>オンライン配信急成長</strong></li>
+                                <li><strong>バーチャルライブ</strong>技術革新と普及</li>
+                                <li>デジタルグッズ・NFTなど<strong>新収益源</strong>台頭</li>
+                                <li>ファンとのデジタルコミュニケーション重視</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-column" style="border-left-color: var(--accent-color); background-color: #f0fdfa;">
+                             <h4 style="color: var(--accent-color);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/><path d="M11 5l7 7-7 7"/><path d="M11 5V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/></svg>消費者行動の変化</h4>
+                             <ul>
+                                <li>自宅での<strong>動画視聴時間</strong>大幅増</li>
+                                <li>サブスクサービスへの<strong>支出増</strong></li>
+                                <li>オンラインコミュニティ参加意欲向上</li>
+                                <li><strong>デジタル体験</strong>への支払い意欲増</li>
+                             </ul>
+                        </div>
+                    </div>
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>パンデミック前後の変化 (例)</h4>
+                        <div class="grid grid-cols-2" style="gap: 1rem;">
+                            <div>
+                                <p><strong>パンデミック前 (2019年)</strong></p>
+                                <ul style="padding-left: 1rem;">
+                                    <li>動画配信普及率：約30%</li>
+                                    <li>Vライブ市場：約100億円</li>
+                                    <li>リアルイベント優先</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <p><strong>パンデミック後 (2021年)</strong></p>
+                                 <ul style="padding-left: 1rem;">
+                                    <li>動画配信普及率：<strong>約60%</strong></li>
+                                    <li>Vライブ市場：<strong>約500億円</strong></li>
+                                    <li>デジタル・リアル Hybrid志向</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">8. エンターテイメントの未来</h2>
+                    <div class="grid grid-cols-3">
+                         <div class="card">
+                            <div class="icon-box">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.1 11.9a1 1 0 0 1 0 1.2 8 8 0 0 1-3 5.8 1 1 0 0 1-1.6-.8v-1.6a1 1 0 0 1 .4-.8 6 6 0 0 0 .9-8.8 1 1 0 0 1 1.5.8Z"/><path d="M20 11.9a1 1 0 0 0 0 1.2 8 8 0 0 0 3 5.8 1 1 0 0 0 1.6-.8v-1.6a1 1 0 0 0-.4-.8 6 6 0 0 1-.9-8.8 1 1 0 0 0-1.5.8Z"/></svg>
+                            </div>
+                            <h3 class="card-title">ライブ化するコンテンツ</h3>
+                            <p>「完成品」からリアルタイムに進化する「ライブコンテンツ」へ。ユーザーとの対話・共創が主流に。</p>
+                        </div>
+                        <div class="card">
+                            <div class="icon-box">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                            </div>
+                            <h3 class="card-title">運営型ビジネスモデル</h3>
+                            <p>「売り切り」から「継続的関係構築」へ。ファンコミュニティ運営とエンゲージメント維持が収益の核に。</p>
+                        </div>
+                        <div class="card">
+                            <div class="icon-box">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.1 12.2a2 2 0 0 1 0-2.4 2 2 0 0 1 3.2 0L12 17l6.7-7.2a2 2 0 0 1 3.2 0 2 2 0 0 1 0 2.4l-8.3 9a2 2 0 0 1-3.2 0L2.1 12.2z"/><path d="M5.3 7.2a2 2 0 0 1 0-2.4 2 2 0 0 1 3.2 0L12 9l3.5-3.8a2 2 0 0 1 3.2 0 2 2 0 0 1 0 2.4L12 13.3 5.3 7.2z"/></svg>
+                            </div>
+                            <h3 class="card-title">メタバース・XR展開</h3>
+                            <p>仮想空間での体験価値創出。キャラクターとファンの新しい接点としてバーチャル空間の重要性増大。</p>
+                        </div>
+                    </div>
+
+                    <div class="accent-box">
+                        <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>日本型「推しエコノミー」の可能性</h3>
+                        <p>日本独自の「推しエコノミー」モデルを進化させ、グローバル競争で<strong>差別化</strong>。キャラとファンの深い絆を基盤とした経済圏構築が、日本のエンタメ産業の未来を担うカギ。</p>
+                    </div>
+
+                    <div class="data-point">
+                        <h4><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 8v4"/><path d="m14 14-2 2"/></svg>未来のエンタメ：2030年の姿</h4>
+                        <ul>
+                            <li>物理と仮想が融合した「<strong>フィジタル</strong>」体験の主流化</li>
+                            <li>キャラクター<strong>AI</strong>による個別化インタラクション</li>
+                            <li>ファン参加型の<strong>IP共創</strong>が標準モデルに</li>
+                            <li>グローバルと地域特化の<strong>ハイブリッドIP戦略</strong></li>
+                            <li>デジタル資産としてのキャラクター価値拡大</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+             <div class="slide conclusion-slide">
+                 <div class="slide-content">
+                    <h2>「推しエコノミー」がもたらす未来</h2>
+                    <p>テレビからデジタルへ、所有から関係性へ、一方通行から共創へ</p>
+                    <p>日本のエンターテイメント産業は、キャラクターとファンの絆を中心とした<br><strong>「仮想一等地」</strong>の創出により、新たな成長の時代を迎えようとしている</p>
+                    <div class="final-title">
+                        <p>推しエコノミー：「仮想一等地」が変えるエンタメの未来</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="slide prev-prep">
-            <h2><svg class="icon"><use xlink:href="#icon-users"/></svg>1. 「推しエコノミー」とは</h2>
-            <p>ファンが単なる消費者ではなく、コンテンツへの「参加者」として経済活動を行う新しい経済圏。</p>
-            <div class="grid-container grid-cols-2">
-                <div class="card accent-card">
-                    <h3>概念の定義</h3>
-                    <p>ファンがコンテンツへの<strong>「参加者」</strong>として経済活動を行う新しいエンタメ経済圏。「推し」への強い支持と<strong>関係性</strong>が経済活動の軸となる。</p>
-                </div>
-                <div class="card accent-card">
-                    <h3>キャラクター経済圏</h3>
-                    <p>日本発のキャラクターとファンの関係性を基盤とするシステム。グッズ販売に加え、<strong>体験や参加</strong>を含む多様な価値提供が特徴。</p>
-                </div>
-            </div>
-            <div class="card data-card">
-                <h4><svg class="icon"><use xlink:href="#icon-globe"/></svg>日本のコンテンツ市場規模</h4>
-                <p>日本のコンテンツ産業は約<strong>12兆円</strong>規模。「推し活」関連は年々拡大、特に<strong>デジタル領域</strong>で成長が著しい。</p>
-            </div>
+        <button class="nav-button prev">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="nav-button next">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides"></span>
         </div>
-
-        <div class="slide prev-prep">
-             <h2><svg class="icon"><use xlink:href="#icon-broadcast"/></svg>2. テレビからデジタルプラットフォームへの移行</h2>
-             <p>エンタメの中心が、TV等の一方向メディアから、動画配信やSNS等の双方向プラットフォームへ急速に移行。</p>
-             <div class="grid-container grid-cols-3" style="align-items: stretch;">
-                 <div class="card">
-                     <div class="icon-box"><svg><use xlink:href="#icon-tv"/></svg></div>
-                     <h4>従来型メディア</h4>
-                     <p>テレビ、雑誌、ラジオなど<br><strong>一方向的</strong>コミュニケーション</p>
-                 </div>
-                 <div class="card" style="background-color: transparent; border: none; box-shadow: none; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem;">
-                      <svg width="36" height="36" fill="var(--neon-pink)" style="margin-bottom: 0.5rem; filter: drop-shadow(var(--glow-pink));"><use xlink:href="#icon-arrow-narrow-right"/></svg>
-                      <p class="small-text" style="text-align: center; margin-bottom: 0; color: var(--text-muted-color);">変化の波:<br>若年層TV離れ<br>スマホ普及<br>配信サービス台頭</p>
-                 </div>
-                 <div class="card">
-                     <div class="icon-box"><svg><use xlink:href="#icon-mobile"/></svg></div>
-                     <h4>新たなメディア</h4>
-                     <p>Netflix, YouTube, TikTok, SNSなど<br><strong>双方向型</strong>プラットフォーム</p>
-                 </div>
-             </div>
-             <div class="card data-card">
-                 <h4><svg class="icon"><use xlink:href="#icon-check-circle"/></svg>デジタルシフトの加速</h4>
-                 <ul>
-                     <li>日本アニメ視聴経路：10代・20代は<strong>動画配信 > テレビ</strong></li>
-                     <li>『鬼滅の刃』：TV放送とデジタル配信の<strong>相乗効果</strong></li>
-                     <li>YouTubeやSNSでの盛り上がりが<strong>不可欠</strong></li>
-                 </ul>
-             </div>
-         </div>
-
-        {/* Slides 3-8 remain the same structure, but styles inside will reflect the neon theme */}
-
-        <div class="slide prev-prep">
-            <h2><svg class="icon"><use xlink:href="#icon-users"/></svg>3. ファンの消費行動の変化</h2>
-            <p>消費者の行動は「所有」から「関係性」へ、「一方的」から「参加型」へシフト。</p>
-            <div class="grid-container grid-cols-2">
-                <div class="card accent-card">
-                    <h3>従来の消費パターン</h3>
-                    <ul>
-                        <li><strong>「所有」</strong>重視 (DVD, CD, 書籍)</li>
-                        <li><strong>一方向的</strong>な消費</li>
-                        <li><strong>グッズ購入</strong>中心</li>
-                        <li>コレクション価値</li>
-                    </ul>
-                </div>
-                <div class="card accent-card">
-                    <h3>新たな消費パターン</h3>
-                    <ul>
-                        <li><strong>「関係性」</strong>重視</li>
-                        <li><strong>双方向的</strong>な参加 (SNS, 二次創作)</li>
-                        <li><strong>体験価値</strong>への投資 (ライブ, イベント)</li>
-                        <li>コミュニティへの<strong>帰属意識</strong></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card data-card">
-                <h4><svg class="icon"><use xlink:href="#icon-paint-brush"/></svg>「推し活」ファンの特徴</h4>
-                <p>一般消費者と比較して：</p>
-                <ul>
-                    <li>関連商品への支出: 約<strong>3倍</strong></li>
-                    <li>SNSでの情報発信頻度: 約<strong>5倍</strong></li>
-                    <li>ファンコミュニティ参加率: 約<strong>7倍</strong></li>
-                    <li>二次創作・UGCへの関与度 高</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="slide prev-prep">
-             <h2><svg class="icon"><use xlink:href="#icon-globe"/></svg>4. 米中エンターテイメント産業の覇権競争</h2>
-             <p>巨大資本とプラットフォーム戦略で世界市場を席巻する米中。</p>
-             <div class="grid-container grid-cols-2">
-                 <div class="card" style="--card-glow-color: var(--neon-blue); border-left: 3px solid var(--neon-blue); box-shadow: inset 0 0 8px rgba(0, 245, 255, 0.2);">
-                     <h3 style="color: var(--neon-blue); text-shadow: var(--glow-blue);">米国型モデル</h3>
-                     <ul>
-                         <li>IP統合管理 (マーベル, ディズニー)</li>
-                         <li>プラットフォーム戦略 (Netflix, Disney+)</li>
-                         <li>テクノロジー投資 (AI, データ分析)</li>
-                         <li>M&Aによる規模拡大</li>
-                         <li>グローバルIP (ハリウッド)</li>
-                     </ul>
-                 </div>
-                 <div class="card" style="--card-glow-color: var(--neon-pink); border-left: 3px solid var(--neon-pink); box-shadow: inset 0 0 8px rgba(255, 20, 147, 0.2);">
-                     <h3 style="color: var(--neon-pink); text-shadow: var(--glow-pink);">中国型モデル</h3>
-                     <ul>
-                         <li>巨大国内市場ベース</li>
-                         <li>政府と民間の連携</li>
-                         <li>プラットフォーム統合 (テンセント, Bilibili)</li>
-                         <li>ライブ配信 & ギフティング</li>
-                         <li>ゲームと動画の融合</li>
-                     </ul>
-                 </div>
-             </div>
-             <div class="card data-card" style="--rgb-data-card: 160, 32, 240;"> {/* Purple glow for data card */ }
-                 <h4><svg class="icon"><use xlink:href="#icon-globe"/></svg>日本の立ち位置</h4>
-                 <ul>
-                     <li>コンテンツの<strong>質・独自性</strong>はトップクラス</li>
-                     <li>プラットフォーム戦略で<strong>遅れ</strong></li>
-                     <li>世界市場シェアは<strong>相対的に縮小傾向</strong></li>
-                     <li>「クールジャパン」戦略の成果と課題</li>
-                 </ul>
-             </div>
-         </div>
-
-        <div class="slide prev-prep">
-             <h2><svg class="icon"><use xlink:href="#icon-paint-brush"/></svg>5. 日本エンタメ産業の独自の強み</h2>
-             <p>米中とは異なる、日本ならではの強みが存在する。</p>
-             <div class="grid-container grid-cols-3">
-                 <div class="card">
-                     <div class="icon-box"><svg><use xlink:href="#icon-paint-brush"/></svg></div>
-                     <h3>コンテンツ創造力</h3>
-                     <p>世界レベルのアニメ・マンガ・ゲーム制作。物語・キャラ設計の深さ。</p>
-                 </div>
-                 <div class="card">
-                     <div class="icon-box"><svg><use xlink:href="#icon-users"/></svg></div>
-                     <h3>ファン文化の成熟</h3>
-                     <p>二次創作・同人文化による<strong>共創関係</strong>。イベントによるコミュニティ形成。</p>
-                 </div>
-                 <div class="card">
-                     <div class="icon-box"><svg><use xlink:href="#icon-globe"/></svg></div>
-                     <h3>クロスメディア展開</h3>
-                     <p>IPの多メディア展開ノウハウ。メディアミックス戦略の<strong>先進性</strong>。</p>
-                 </div>
-             </div>
-             <div class="card accent-card" style="margin: 1rem 0; --rgb-accent-card: 0, 255, 0;"> {/* Green glow for accent card */ }
-                 <h3>「仮想一等地」の創出</h3>
-                 <p>物理的場所に依存せず、キャラとファンの関係性を中心とした<strong>「仮想一等地」</strong>(デジタル空間のコミュニティ)を創出できる能力。</p>
-             </div>
-             <div class="card data-card" style="--rgb-data-card: 255, 240, 0;"> {/* Yellow glow for data card */ }
-                 <h4><svg class="icon"><use xlink:href="#icon-puzzle"/></svg>データで見る日本の強み</h4>
-                 <ul>
-                     <li>世界アニメ市場シェア：約<strong>60%</strong></li>
-                     <li>コスプレイヤー人口：世界約4000万人 (日本発コンテンツ約70%)</li>
-                     <li>二次創作活動参加者：世界約<strong>2000万人</strong></li>
-                     <li>日本キャラクタービジネス市場：約<strong>3兆円</strong>規模</li>
-                 </ul>
-             </div>
-         </div>
-
-        <div class="slide prev-prep">
-            <h2><svg class="icon"><use xlink:href="#icon-tv"/></svg>6. 成功事例分析</h2>
-            <p>日本の強みを活かした成功例。</p>
-            <div class="grid-container grid-cols-2">
-                <div class="card" style="--card-glow-color: var(--neon-pink); border-left: 3px solid var(--neon-pink); box-shadow: inset 0 0 8px rgba(255, 20, 147, 0.2);">
-                    <h3 style="color: var(--neon-pink); text-shadow: var(--glow-pink);">『鬼滅の刃』の経済圏</h3>
-                    <p><strong>経済効果：約1兆円</strong></p>
-                    <p>成功要因：SNS最適化、TV+配信、高品質クロスメディア、タイミング、幅広いキャラ訴求</p>
-                </div>
-                <div class="card" style="--card-glow-color: var(--neon-yellow); border-left: 3px solid var(--neon-yellow); box-shadow: inset 0 0 8px rgba(255, 240, 0, 0.2);">
-                    <h3 style="color: var(--neon-yellow); text-shadow: var(--glow-yellow);">『ポケモン』の持続的成功</h3>
-                    <p><strong>累計経済効果：約10兆円以上</strong></p>
-                    <p>成長秘訣：世代超えIP運営、多角展開、デジタル転換(GO)、グローバル最適化、IP拡張</p>
-                </div>
-            </div>
-            <div class="card data-card" style="--rgb-data-card: 0, 255, 0;"> {/* Green glow */}
-                <h4><svg class="icon"><use xlink:href="#icon-bulb"/></svg>推しエコノミーの成功パターン</h4>
-                <ul>
-                    <li>キャラと世界観の魅力</li>
-                    <li>ファンコミュニティ育成・対話</li>
-                    <li>多様なタッチポイント設計</li>
-                    <li>デジタルとリアルの融合体験</li>
-                    <li>長期的な関係性構築を重視したIP運営</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="slide prev-prep">
-             <h2><svg class="icon"><use xlink:href="#icon-broadcast"/></svg>7. コロナ禍によるデジタル加速</h2>
-             <p>パンデミックはエンタメ産業のデジタルトランスフォーメーションを数年分早めた。</p>
-             <div class="grid-container grid-cols-2">
-                 <div class="card accent-card" style="--rgb-accent-card: 0, 245, 255;">
-                     <h3>オンラインシフト</h3>
-                     <ul>
-                         <li>オンライン配信急成長</li>
-                         <li>バーチャルライブ普及</li>
-                         <li>デジタルグッズ・NFT台頭</li>
-                         <li>デジタルコミュニケーション重視</li>
-                     </ul>
-                 </div>
-                 <div class="card accent-card" style="--rgb-accent-card: 0, 245, 255;">
-                     <h3>消費者行動の変化</h3>
-                     <ul>
-                         <li>動画視聴時間増</li>
-                         <li>サブスク支出増</li>
-                         <li>オンラインコミュニティ参加意欲向上</li>
-                         <li>デジタル体験への支払い意欲増加</li>
-                     </ul>
-                 </div>
-             </div>
-             <div class="card data-card" style="--rgb-data-card: 255, 20, 147;">
-                 <h4><svg class="icon"><use xlink:href="#icon-arrow-right"/></svg>パンデミック前後の変化 (比較)</h4>
-                  <div class="grid-container grid-cols-2" style="margin-top: 0.5rem; font-size: 0.9em;">
-                      <div>
-                          <p><strong>前（2019）</strong>: 配信普及30%, Vライブ市場100億</p>
-                      </div>
-                      <div>
-                          <p><strong>後（2021）</strong>: 配信普及<strong>60%</strong>, Vライブ市場<strong>500億</strong>, ハイブリッド志向</p>
-                      </div>
-                  </div>
-             </div>
-         </div>
-
-        <div class="slide prev-prep">
-            <h2><svg class="icon"><use xlink:href="#icon-bulb"/></svg>8. エンターテイメントの未来</h2>
-             <p>コンテンツはライブ化し、ビジネスは運営型へ。仮想空間の活用が鍵。</p>
-             <div class="grid-container grid-cols-3">
-                <div class="card">
-                    <div class="icon-box"><svg><use xlink:href="#icon-broadcast"/></svg></div>
-                    <h3>ライブ化する<br>コンテンツ</h3>
-                    <p>「完成品」からリアルタイムに進化・共創する<strong>「ライブコンテンツ」</strong>へ。</p>
-                </div>
-                <div class="card">
-                    <div class="icon-box"><svg><use xlink:href="#icon-puzzle"/></svg></div>
-                    <h3>運営型<br>ビジネスモデル</h3>
-                    <p>「売り切り」から<strong>「継続的関係構築」</strong>へ。コミュニティ運営が収益の核に。</p>
-                </div>
-                <div class="card">
-                    <div class="icon-box"><svg><use xlink:href="#icon-vr"/></svg></div>
-                    <h3>メタバース・XR<br>展開</h3>
-                    <p>仮想空間での<strong>体験価値創出</strong>。キャラとファンの新しい接点。</p>
-                </div>
-            </div>
-            <div class="card accent-card" style="margin: 1rem 0; --rgb-accent-card: 0, 255, 0;">
-                <h3>「仮想一等地」の創出</h3>
-                <p>独自のモデル進化でグローバル競争で<strong>差別化</strong>。キャラとファンの絆が未来のカギ。</p>
-            </div>
-             <div class="card data-card" style="--rgb-data-card: 255, 240, 0;">
-                <h4><svg class="icon"><use xlink:href="#icon-forward"/></svg>未来のエンタメ：2030年の姿 (予測)</h4>
-                <ul>
-                    <li>「フィジタル」体験 (物理+仮想) の主流化</li>
-                    <li>キャラクターAIによる個別インタラクション</li>
-                    <li>ファン参加型IP共創の標準化</li>
-                    <li>グローバル＆地域特化のハイブリッド戦略</li>
-                    <li>デジタル資産としてのキャラ価値拡大</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="slide title-slide prev-prep">
-             {/* Apply neon style to the conclusion title and subtitle */}
-             <h2 style="color: var(--neon-green); text-shadow: var(--glow-green); font-size: 24px; font-weight: 700; border: none; padding: 0; margin-bottom: 1.5rem;">「推しエコノミー」がもたらす未来</h2>
-             <p style="color: var(--neon-blue); text-shadow: var(--glow-blue); font-size: 20px; font-weight: 700; margin-bottom: 1.5rem;">テレビ→デジタル、所有→関係性、一方通行→共創</p>
-             <p style="color: white; font-size: 16px; font-weight: 400; margin-bottom: 2rem;">日本のエンタメ産業は、キャラとファンの絆を中心とした<br><strong>「仮想一等地」</strong>の創出により、新たな成長の時代へ</p>
-             <div style="margin-top: 1.5rem;">
-                 <p style="color: var(--neon-pink); text-shadow: var(--glow-pink); font-size: 18px; font-weight: 700;">推しエコノミー：「仮想一等地」が変えるエンタメの未来</p>
-             </div>
-         </div>
     </div>
 
-    <button id="prev" class="nav-button" title="前のスライド (←/PageUp)">‹</button>
-    <button id="next" class="nav-button" title="次のスライド (→/PageDown/Space)">›</button>
-    <div class="slide-counter" id="slide-counter">1 / 9</div>
-
     <script>
-        const slides = document.querySelectorAll('.slide');
-        const prevButton = document.getElementById('prev');
-        const nextButton = document.getElementById('next');
-        const slideCounter = document.getElementById('slide-counter');
-        let currentSlide = 0;
-        const totalSlides = slides.length;
+        document.addEventListener('DOMContentLoaded', () => {
+            const slidesContainer = document.querySelector('.slides-container');
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const prevButton = document.querySelector('.nav-button.prev');
+            const nextButton = document.querySelector('.nav-button.next');
+            const currentSlideSpan = document.getElementById('current-slide');
+            const totalSlidesSpan = document.getElementById('total-slides');
 
-        function updateTotalSlideCount() {
-             slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
-        }
+            let currentSlideIndex = 0;
+            const totalSlides = slides.length;
 
-        function applySlideClasses(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active', 'next-prep', 'prev-prep');
-                if (i === index) {
-                    slide.classList.add('active');
+            function updateSlideCounter() {
+                currentSlideSpan.textContent = currentSlideIndex + 1;
+                totalSlidesSpan.textContent = totalSlides;
+            }
+
+            function showSlide(index) {
+                // Remove active class from all slides
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    // Reset animation state for content
+                    const content = slide.querySelector('.slide-content');
+                    if (content) {
+                        content.style.animation = 'none'; // Remove animation first
+                        void content.offsetWidth; // Trigger reflow to restart animation
+                        content.style.animation = ''; // Re-add animation class
+                    }
+                });
+
+                // Add active class to the target slide
+                slides[index].classList.add('active');
+
+                // Hide/show nav buttons at ends
+                prevButton.style.display = index === 0 ? 'none' : 'flex';
+                nextButton.style.display = index === totalSlides - 1 ? 'none' : 'flex';
+
+                updateSlideCounter();
+            }
+
+
+            function nextSlide() {
+                if (currentSlideIndex < totalSlides - 1) {
+                    currentSlideIndex++;
+                    showSlide(currentSlideIndex);
                 }
-                if (i === index) {
-                    slide.scrollTop = 0;
+            }
+
+            function prevSlide() {
+                if (currentSlideIndex > 0) {
+                    currentSlideIndex--;
+                    showSlide(currentSlideIndex);
+                }
+            }
+
+            // Event Listeners
+            nextButton.addEventListener('click', nextSlide);
+            prevButton.addEventListener('click', prevSlide);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (event.key === 'ArrowLeft') {
+                    prevSlide();
                 }
             });
-        }
 
-        function showSlide(index) {
-            if (index < 0) index = 0;
-            if (index >= totalSlides) index = totalSlides - 1;
-            if (index === currentSlide) return;
-
-            currentSlide = index;
-            applySlideClasses(currentSlide);
-            updateTotalSlideCount();
-            prevButton.disabled = currentSlide === 0;
-            nextButton.disabled = currentSlide === totalSlides - 1;
-        }
-
-        prevButton.addEventListener('click', () => showSlide(currentSlide - 1));
-        nextButton.addEventListener('click', () => showSlide(currentSlide + 1));
-
-        document.addEventListener('keydown', (event) => {
-            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.isContentEditable) return;
-            let targetSlide = currentSlide;
-            switch (event.key) {
-                case 'ArrowLeft': case 'PageUp': targetSlide--; break;
-                case 'ArrowRight': case 'PageDown': case ' ': targetSlide++; break;
-                case 'Home': targetSlide = 0; break;
-                case 'End': targetSlide = totalSlides - 1; break;
-                default: return;
-            }
-            event.preventDefault();
-            showSlide(targetSlide);
+            // Initial setup
+            showSlide(currentSlideIndex); // Show the first slide initially
         });
-
-        applySlideClasses(0);
-        updateTotalSlideCount();
-        prevButton.disabled = true;
-        nextButton.disabled = currentSlide === totalSlides - 1;
     </script>
 
 </body>
