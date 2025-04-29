@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知性の罠：なぜインテリが愚行を犯すのか</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: #172B4D;
+            background-color: #F4F5F7;
+        }
+        .slide {
+            display: none;
+            height: 100vh;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow-y: auto;
+        }
+        .active {
+            display: block;
+        }
+        .title-text {
+            color: #0052CC;
+        }
+        .subtitle-text {
+            color: #5E6C84;
+        }
+        .btn {
+            background-color: #0052CC;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0747A6;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: #0052CC;
+            transition: width 0.3s;
+        }
+        .chart-bar {
+            transition: width 1s ease-in-out;
+        }
+        .matrix-box {
+            transition: all 0.5s ease-in-out;
+        }
+        .matrix-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .process-step {
+            position: relative;
+        }
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            width: 30px;
+            height: 2px;
+            background-color: #DFE1E6;
+        }
+        .swot-box {
+            transition: transform 0.3s ease;
+        }
+        .swot-box:hover {
+            transform: translateY(-5px);
+        }
+        /* Custom animation for fade in elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 14px;
+            color: #5E6C84;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-5xl font-bold title-text mb-6 text-center">知性の罠</h1>
+            <h2 class="text-3xl subtitle-text mb-12 text-center">なぜインテリが愚行を犯すのか</h2>
+            <div class="w-24 h-1 bg-blue-500 mb-12"></div>
+            <p class="text-xl mb-4 text-center">高いIQと教育を持つ人が<br>非合理的な判断を下す理由とその対策</p>
+            <p class="text-lg text-gray-500 mt-16">新規事業開発・新しいビジネス/技術チャレンジに取り組む<br>ビジネスパーソン向けプレゼンテーション</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: Introduction -->
+    <section class="slide" id="slide2">
+        <h2 class="text-3xl font-bold title-text mb-6">本書の中心テーマ</h2>
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <div class="md:w-1/2">
+                <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 mb-6">
+                    <p class="text-xl"><span class="font-bold">知性の高さ</span>は必ずしも<span class="font-bold">賢明な判断や合理的な行動</span>を保証しない</p>
+                </div>
+                <p class="mb-4">本書は「なぜ高い知性（IQ、専門教育、先端的知識）を持ち、社会的に「優秀」とみなされる人々が、ときとして大きな誤りを犯してしまうのか」という逆説的な現象を解明します。</p>
+                <p class="font-bold text-lg">インテリジェンス・トラップ（知性の罠）：</p>
+                <p class="mb-4">知能や教育が高いほど、バイアスを訂正せずに誤謬を強化してしまう危険性</p>
+            </div>
+            <div class="md:w-1/2">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">インテリジェンス・トラップの例</h3>
+                    <ul class="list-disc pl-6 space-y-3">
+                        <li>ノーベル賞受賞者が陰謀論を無防備に信じる</li>
+                        <li>医学博士のコナン・ドイルが心霊写真に騙される</li>
+                        <li>FBIの専門家が重大な指紋鑑定ミスを犯す</li>
+                        <li>IQ140以上の「ターマンの子供たち」が凡庸な成果にとどまる</li>
+                        <li>優秀すぎるチームが高いパフォーマンスを発揮できない</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+            <p class="font-bold">本書の目的：</p>
+            <p>「インテリジェンス・トラップ」のメカニズムを解明し、個人も組織も、より合理的かつ創造的な判断を下すための「根拠に基づく知恵（evidence-based wisdom）」を提示すること</p>
+        </div>
+    </section>
+
+    <!-- Slide 3: Book Structure -->
+    <section class="slide" id="slide3">
+        <h2 class="text-3xl font-bold title-text mb-6">書籍の全体構成</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-red-500">
+                <h3 class="text-xl font-bold mb-3">第1部：知能の落とし穴</h3>
+                <p class="text-gray-700 mb-2">高IQ、教育、専門知識がバカを増幅する</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-800">
+                    <li>IQ190以上の神童の平凡な人生</li>
+                    <li>天才はなぜエセ科学を信じるのか</li>
+                    <li>専門家が判断ミスを犯す根本理由</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-blue-500">
+                <h3 class="text-xl font-bold mb-3">第2部：賢いあなたが気をつけるべきこと</h3>
+                <p class="text-gray-700 mb-2">基本的な知性の罠の回避法</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-800">
+                    <li>優れた判断力、知的謙虚さ、心の広さ</li>
+                    <li>外国語で考えると合理的判断が下せる理由</li>
+                    <li>真実とフェイクニュース</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-green-500">
+                <h3 class="text-xl font-bold mb-3">第3部：実りある学習法</h3>
+                <p class="text-gray-700 mb-2">根拠に基づく知恵が記憶の質を高める</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-800">
+                    <li>なぜ賢い人は学ぶのが下手なのか</li>
+                    <li>努力に勝る天才なし</li>
+                    <li>賢明な思考力を育む方法</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-purple-500">
+                <h3 class="text-xl font-bold mb-3">第4部：知性ある組織の作り方</h3>
+                <p class="text-gray-700 mb-2">組織的な愚かさの防止策</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-800">
+                    <li>天才ばかりのチームは生産性が下がる</li>
+                    <li>バカは野火のように広がる</li>
+                    <li>組織が機能する条件</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-green-50 p-6 rounded-lg">
+            <h3 class="text-xl font-bold mb-3">本書の意義</h3>
+            <ul class="space-y-2">
+                <li><span class="font-bold">個人レベル：</span>エリートが陥りがちな誤謬の根源を理解し、「内省的思考」を習得することで失敗を防ぐ</li>
+                <li><span class="font-bold">組織レベル：</span>教育や職場での人材育成、リーダーシップに「しなやかマインドセット」を醸成し、失敗や批判を歓迎する文化づくりが不可欠</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 4: Smart People, Stupid Mistakes -->
+    <section class="slide" id="slide4">
+        <h2 class="text-3xl font-bold title-text mb-6">なぜ賢い人が愚かな失敗を犯すのか</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="col-span-1 md:col-span-2">
+                <h3 class="text-xl font-bold mb-4">「合理性障害」のメカニズム</h3>
+
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="font-bold mb-2">事例：医学博士コナン・ドイルの心霊主義への傾倒</p>
+                    <p class="text-gray-800">シャーロック・ホームズの作者で論理的思考の達人であるはずのコナン・ドイルが、偽の心霊写真を本物と信じ込み、フーディーニ（奇術師）が明らかな詐欺を見破っても否定。</p>
+                    <p class="italic text-sm mt-2">「知能が高いほど、自分の見解を守るための理屈をこねる能力も高い」</p>
+                </div>
+
+                <p class="mb-4">キース・スタノビッチの研究では、認知バイアス（フレーミング、アンカリング、サンクコストの誤謬など）への耐性と<span class="font-bold">IQの高さはそれほど相関しない</span>ことが示されています。</p>
+
+                <p class="font-bold">高IQの罠：</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>自分の認知の死角に気づきにくい</li>
+                    <li>自信過剰になりがち</li>
+                    <li>都合の悪い証拠を否定するための理屈をこねる</li>
+                </ul>
+            </div>
+
+            <div class="col-span-1">
+                <div class="bg-yellow-50 rounded-lg shadow p-5 border-l-4 border-yellow-500 h-full">
+                    <h3 class="text-lg font-bold mb-3">「動機づけられた推論」</h3>
+                    <p class="mb-4">自分のアイデンティティや価値観を守るために、証拠や情報を偏って解釈すること</p>
+
+                    <div class="bg-white rounded p-3 mb-4">
+                        <p class="text-sm italic">「科学的知識が豊富な人ほど、自分の立場（政治的信条など）をさらに強固にする傾向がある」</p>
+                    </div>
+
+                    <p class="font-bold mb-2">例：</p>
+                    <ul class="list-disc pl-5 text-sm space-y-1">
+                        <li>銃規制に関するデータの解釈</li>
+                        <li>気候変動に関する科学的証拠の評価</li>
+                        <li>ワクチンの効果と安全性の議論</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow p-5">
+                <h3 class="text-lg font-bold mb-3">FBIの指紋鑑定ミス</h3>
+                <p class="mb-3">2004年マドリード爆破事件で、FBIの指紋鑑定専門家が無実の弁護士を犯人と断定</p>
+                <p class="text-sm text-gray-700">指紋の明らかな不一致点を見逃し、矛盾する証拠を無視。「専門家の自信過剰」と「先入観」による偏った情報処理が原因</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5">
+                <h3 class="text-lg font-bold mb-3">「専門知識の逆襲」</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>専門家は経験から直感的な「トップダウン」処理を行う</li>
+                    <li>感情バイアスや組織プレッシャーを受けると、誤った結論に飛びつきやすい</li>
+                    <li>「常識から逸脱した微妙なサイン」を見逃す</li>
+                    <li>同僚の批判を無視する傾向（獲得されたドグマチズム）</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Intelligence vs Rationality -->
+    <section class="slide" id="slide5">
+        <h2 class="text-3xl font-bold title-text mb-6">知能 vs 合理性：両者は別物</h2>
+
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">IQが測定する知能の限界</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <h4 class="font-bold mb-2">ターマンの子供たち（IQ 140以上）の追跡調査</h4>
+                    <p class="mb-3">スタンフォード大学の心理学者ルイス・ターマンが1920年代から実施</p>
+                    <p class="mb-3 text-sm text-gray-700">「高IQが人生のあらゆる成功を保証する」と予想したが、多くは並以上の成功にとどまった</p>
+                    <div class="bg-red-50 p-3 rounded">
+                        <p class="text-sm">高IQは学業成績や専門職の一部では優位性があるが、人間の多様な思考や行動の質、成功、幸福を説明できない</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center my-4">
+                    <svg width="300" height="180" class="border bg-white rounded shadow-md p-2">
+                        <text x="150" y="30" text-anchor="middle" font-weight="bold">知能と合理性の関係</text>
+                        <rect x="30" y="50" width="240" height="100" fill="none" stroke="#0052CC" stroke-width="2" rx="5"></rect>
+
+                        <!-- IQ Circle -->
+                        <circle cx="110" cy="100" r="50" fill="#E3F2FD" stroke="#0052CC" stroke-width="2"></circle>
+                        <text x="110" y="100" text-anchor="middle" font-weight="bold">IQ</text>
+                        <text x="110" y="120" text-anchor="middle" font-size="12">知能指数</text>
+
+                        <!-- RQ Circle -->
+                        <circle cx="190" cy="100" r="50" fill="#E8F5E9" stroke="#00875A" stroke-width="2"></circle>
+                        <text x="190" y="100" text-anchor="middle" font-weight="bold">RQ</text>
+                        <text x="190" y="120" text-anchor="middle" font-size="12">合理性指数</text>
+
+                        <text x="150" y="165" text-anchor="middle" font-size="10" fill="#5E6C84">※個人差があり、両者の相関は中程度（0.47）</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">合理性とは何か</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="mb-3">合理性とは「目的達成のための最適な行動を選択し、現実に即した信念を形成する能力」</p>
+                    <ul class="list-disc pl-6 mb-3 space-y-1">
+                        <li>認知バイアスを認識して修正できる</li>
+                        <li>感情に流されず論理的に考えられる</li>
+                        <li>多様な視点から問題を検討できる</li>
+                    </ul>
+                    <p class="text-sm mb-2 font-bold">キース・スタノビッチの研究：</p>
+                    <p class="text-sm">合理性指数（RQ）というテストを開発。RQはIQとは別に測定でき、実生活での成功をよりよく予測する</p>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+                    <h3 class="text-lg font-bold mb-3">スタンバーグの「優れた知能の三角理論」</h3>
+                    <div class="flex justify-between mb-4">
+                        <div class="w-1/3 px-2 text-center">
+                            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">分析的</span>
+                            </div>
+                            <p class="text-sm">論理的・抽象的思考力</p>
+                        </div>
+                        <div class="w-1/3 px-2 text-center">
+                            <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">実務的</span>
+                            </div>
+                            <p class="text-sm">暗黙知、リーダーシップ、意思決定</p>
+                        </div>
+                        <div class="w-1/3 px-2 text-center">
+                            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                <span class="font-bold">創造的</span>
+                            </div>
+                            <p class="text-sm">独創力、発想力、反事実思考</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-center">IQは主に「分析的知能」のみ測定するが、実社会での成功には三要素すべてが重要</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Wise Thinking - Core Elements -->
+    <section class="slide" id="slide6">
+        <h2 class="text-3xl font-bold title-text mb-6">賢明な思考の核心要素</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">「根拠に基づく知恵」の構成要素</h3>
+                <div class="bg-white rounded-lg shadow p-5">
+                    <div class="mb-5">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-blue-700">1</span>
+                            </div>
+                            <h4 class="font-bold text-lg">知的謙虚さ</h4>
+                        </div>
+                        <p class="pl-12 text-gray-700">自分の知識の限界を認識し、誤りを認める勇気を持つこと</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-green-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-green-700">2</span>
+                            </div>
+                            <h4 class="font-bold text-lg">オープンマインド思考</h4>
+                        </div>
+                        <p class="pl-12 text-gray-700">多様な視点を考慮し、自分と異なる意見にも耳を傾ける</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-purple-700">3</span>
+                            </div>
+                            <h4 class="font-bold text-lg">内省的思考</h4>
+                        </div>
+                        <p class="pl-12 text-gray-700">自分の感情や思考プロセスを客観的に観察・分析する能力</p>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <div class="bg-yellow-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-yellow-700">4</span>
+                            </div>
+                            <h4 class="font-bold text-lg">批判的思考</h4>
+                        </div>
+                        <p class="pl-12 text-gray-700">情報や主張を論理的に評価し、証拠に基づいて判断する</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-4">知恵のSWOT分析フレームワーク</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg shadow swot-box">
+                        <h4 class="font-bold text-blue-700 mb-2">Strengths（強み）</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            <li>高い知能（IQ）</li>
+                            <li>専門知識</li>
+                            <li>豊富な経験</li>
+                            <li>論理的思考力</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-red-50 p-4 rounded-lg shadow swot-box">
+                        <h4 class="font-bold text-red-700 mb-2">Weaknesses（弱み）</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            <li>認知バイアス</li>
+                            <li>自信過剰</li>
+                            <li>動機づけられた推論</li>
+                            <li>専門知識の盲点</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg shadow swot-box">
+                        <h4 class="font-bold text-green-700 mb-2">Opportunities（機会）</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            <li>多様な意見の取り入れ</li>
+                            <li>自己内省の習慣化</li>
+                            <li>学習マインドセットの育成</li>
+                            <li>感情識別能力の向上</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg shadow swot-box">
+                        <h4 class="font-bold text-yellow-700 mb-2">Threats（脅威）</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-1">
+                            <li>フェイクニュース</li>
+                            <li>集団思考（グループシンク）</li>
+                            <li>組織的な機能的愚鈍</li>
+                            <li>硬直マインドセット</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-gray-50 p-4 rounded-lg shadow">
+                    <h4 class="font-bold mb-2">ベンジャミン・フランクリンの知恵</h4>
+                    <div class="flex items-start">
+                        <div class="min-w-[110px]">
+                            <div class="bg-blue-100 rounded p-2 text-center text-sm">
+                                <p class="font-bold">精神的代数</p>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm">意思決定の際に、メリット・デメリットをリスト化し、各項目の重要度を評価して比較検討する方法</p>
+                            <p class="text-xs mt-1 italic">「長く生きていると、自分の判断が間違っていたことがわかり、意見を変えざるを得なかったことが幾度もあった」</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-indigo-50 p-5 rounded-lg shadow">
+            <h3 class="text-xl font-bold mb-3">賢明な思考力と知的能力の関係</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="md:w-2/3">
+                    <p class="mb-3">イゴール・グロスマンの研究では、<span class="font-bold">賢明な思考力テスト</span>を開発。このスコアは<span class="font-bold">IQよりも</span>以下の項目と強く相関：</p>
+                    <ul class="list-disc pl-6 space-y-1">
+                        <li>人生の満足度</li>
+                        <li>幸福感</li>
+                        <li>良好な人間関係</li>
+                        <li>長寿</li>
+                    </ul>
+                    <p class="mt-3 text-sm italic">重要な点として、賢明な思考力スコアとIQの相関は非常に低い（差異の5%以下しか説明できない）</p>
+                </div>
+                <div class="md:w-1/3 flex justify-center items-center">
+                    <div class="bg-white p-3 rounded-lg shadow text-center">
+                        <p class="font-bold mb-2">ソロモンのパラドクス</p>
+                        <p class="text-sm">他人の問題には賢明な助言ができるのに、自分の問題には非合理的な判断をしてしまう現象</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Emotional Intelligence and Thinking -->
+    <section class="slide" id="slide7">
+        <h2 class="text-3xl font-bold title-text mb-6">感情と思考：内省的思考の重要性</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">感情と合理的判断の関係</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <h4 class="font-bold mb-3">ソマティック・マーカー仮説（ダマシオ）</h4>
+                    <p class="mb-3">感情は身体反応として現れ、無意識的に判断に影響を与える</p>
+                    <div class="flex mb-4">
+                        <div class="w-1/2 border-r pr-3">
+                            <p class="font-bold text-green-700 text-sm">適切に活用できれば</p>
+                            <p class="text-sm">意思決定の重要なシグナルになる</p>
+                        </div>
+                        <div class="w-1/2 pl-3">
+                            <p class="font-bold text-red-700 text-sm">認識できないと</p>
+                            <p class="text-sm">誤った「直感」に惑わされる</p>
+                        </div>
+                    </div>
+                    <p class="text-sm italic">前頭前野腹内側部損傷患者（感情を感じられない）は、IQは正常でも非合理的な意思決定を繰り返す</p>
+                </div>
+
+                <div class="bg-yellow-50 p-5 rounded-lg shadow border-l-4 border-yellow-500">
+                    <h4 class="font-bold mb-3">感情的リアリズム</h4>
+                    <p class="mb-3">判断とは無関係な感情（気分、天候、不快な臭いなど）が判断に影響を与えてしまう現象</p>
+                    <div class="bg-white p-3 rounded">
+                        <p class="text-sm">例：</p>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>面接官は雨の日に会った応募者を採用しにくい</li>
+                            <li>不快な臭いが道徳的判断を厳しくする</li>
+                            <li>誰かに怒りを感じた後、無関係な議論で対立的になる</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-4">内省的思考の要素</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-blue-700 mb-2">1. インテロセプション</h4>
+                        <p class="mb-2">身体内部感覚（心拍、呼吸、胃の感覚など）への気づき</p>
+                        <p class="text-sm">高い人はギャンブル課題で有利な選択を早く学び、金融トレーダーとして成功しやすい</p>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-green-700 mb-2">2. 感情識別</h4>
+                        <p class="mb-2">感情を細かく区別し、正確な言葉で表現する能力</p>
+                        <p class="text-sm">詳細に言語化できた投資家の方が成績が良い。感情的リアリズムの影響を受けにくい</p>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-purple-700 mb-2">3. 感情コントロール</h4>
+                        <p class="mb-2">感情を適切に調整し、判断や行動に悪影響を与えないようにする能力</p>
+                        <p class="text-sm">感情の再評価は、政治的議論における「動機づけられた推論」を抑制する</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-white p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-3">内省能力を高める方法</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="border rounded p-3">
+                            <p class="font-bold text-sm mb-1">マインドフルネス瞑想</p>
+                            <p class="text-xs">身体感覚や思考を客観的に観察し、インテロセプションを向上させる</p>
+                        </div>
+                        <div class="border rounded p-3">
+                            <p class="font-bold text-sm mb-1">感情の言語化</p>
+                            <p class="text-xs">自分の感情を正確な言葉で表現する練習をする</p>
+                        </div>
+                        <div class="border rounded p-3">
+                            <p class="font-bold text-sm mb-1">日記</p>
+                            <p class="text-xs">思考や感情、それが判断に与えた影響を書き留める</p>
+                        </div>
+                        <div class="border rounded p-3">
+                            <p class="font-bold text-sm mb-1">外国語効果</p>
+                            <p class="text-xs">外国語で考えると感情バイアスが低減し、より合理的な判断ができる</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Fixed vs Growth Mindset -->
+    <section class="slide" id="slide8">
+        <h2 class="text-3xl font-bold title-text mb-6">学習と成長のマインドセット</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">なぜ賢い人ほど学ぶのが下手なのか</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="mb-3">高いIQや専門知識があっても、それだけでは効果的な学習が保証されません。むしろ阻害要因となる場合も。</p>
+
+                    <h4 class="font-bold mb-2">阻害要因：</h4>
+                    <ul class="list-disc pl-6 mb-4 space-y-1">
+                        <li>「自分は理解している」という錯覚</li>
+                        <li>失敗を恐れるあまり挑戦を避ける</li>
+                        <li>批判やフィードバックへの拒否反応</li>
+                        <li>効率性を過度に重視し、「望ましい困難」を避ける</li>
+                    </ul>
+
+                    <div class="bg-blue-50 p-3 rounded">
+                        <p class="text-sm italic">物理学者リチャード・ファインマンが「ノーベル賞級の大発見」を可能にしたのは、彼の高いIQよりも、「学ぶことそのものを楽しむ好奇心」と「失敗をおそれないマインドセット」</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-3">好奇心の科学</h4>
+                    <p class="mb-3">好奇心は、ドーパミン作動系を活性化させ、学習意欲だけでなく記憶力そのものを向上させる</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-sm font-bold">好奇心の効果</p>
+                            <ul class="list-disc pl-4 text-xs">
+                                <li>学習・記憶力向上</li>
+                                <li>スピルオーバー効果</li>
+                                <li>ストレス耐性向上</li>
+                                <li>創造性の促進</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-sm font-bold">好奇心が減退する原因</p>
+                            <ul class="list-disc pl-4 text-xs">
+                                <li>すぐに正解を与える教育</li>
+                                <li>質問を抑制する環境</li>
+                                <li>画一的な学習内容</li>
+                                <li>失敗への否定的反応</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-4">マインドセット理論（キャロル・ドゥエック）</h3>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-5 rounded-lg shadow matrix-box">
+                            <h4 class="font-bold text-red-700 mb-3">硬直マインドセット</h4>
+                            <p class="mb-2 text-sm italic">"知能や才能は固定的だ"</p>
+                            <ul class="list-disc pl-5 text-sm space-y-1">
+                                <li>挑戦を避ける</li>
+                                <li>努力は無能の証と思う</li>
+                                <li>批判やフィードバックを忌避</li>
+                                <li>他者の成功に脅威を感じる</li>
+                                <li>「賢く見せること」に執着</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-5 rounded-lg shadow matrix-box">
+                            <h4 class="font-bold text-green-700 mb-3">しなやかマインドセット</h4>
+                            <p class="mb-2 text-sm italic">"能力は努力で伸ばせる"</p>
+                            <ul class="list-disc pl-5 text-sm space-y-1">
+                                <li>挑戦を好む</li>
+                                <li>努力を成長の糧と思う</li>
+                                <li>批判から学ぼうとする</li>
+                                <li>他者の成功にインスピレーション</li>
+                                <li>「学ぶこと」に焦点</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h4 class="font-bold mb-3">マインドセットの育成</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="border-r pr-3">
+                                <p class="font-bold text-red-600 mb-2">避けるべき対応</p>
+                                <ul class="list-disc pl-5 text-sm">
+                                    <li>「あなたは頭がいいね」と結果を褒める</li>
+                                    <li>IQや才能を過度に重視する</li>
+                                    <li>完璧さを求める</li>
+                                    <li>失敗を恥と捉える</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-bold text-green-600 mb-2">推奨される対応</p>
+                                <ul class="list-disc pl-5 text-sm">
+                                    <li>「よく頑張った」と努力やプロセスを褒める</li>
+                                    <li>「まだできない」という表現を使う</li>
+                                    <li>失敗を学習機会と捉える</li>
+                                    <li>脳の可塑性について教える</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold mb-2">マインドセットと賢明な思考の関係</h4>
+                        <div class="flex justify-between">
+                            <div class="w-1/2 pr-2">
+                                <p class="text-sm mb-1"><span class="font-bold">好奇心とオープンマインド：</span></p>
+                                <p class="text-xs">好奇心が高い人は、自分の政治的信条と異なる情報にも関心を示し、動機づけられた推論の影響を受けにくい</p>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <p class="text-sm mb-1"><span class="font-bold">しなやかマインドセットと知的謙虚さ：</span></p>
+                                <p class="text-xs">しなやかマインドセットを持つ人は、自分の限界を認めやすく、他者からの学習に前向き</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Better Learning Strategies -->
+    <section class="slide" id="slide9">
+        <h2 class="text-3xl font-bold title-text mb-6">効果的な学習：「望ましい困難」の原則</h2>
+
+        <div class="flex flex-col md:flex-row gap-8 mb-8">
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">学習に関する一般的な誤解</h3>
+                <div class="bg-white rounded-lg shadow p-5">
+                    <div class="mb-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-bold text-red-600">誤解</p>
+                            <p class="font-bold text-green-600">真実</p>
+                        </div>
+                        <div class="bg-gray-100 rounded p-3 mb-3">
+                            <div class="flex justify-between">
+                                <p class="w-1/2 pr-2 text-sm">"多く学ぶほど良い"</p>
+                                <p class="w-1/2 pl-2 text-sm border-l">分散学習の方が効果的</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 rounded p-3 mb-3">
+                            <div class="flex justify-between">
+                                <p class="w-1/2 pr-2 text-sm">"理解しやすいほど覚えられる"</p>
+                                <p class="w-1/2 pl-2 text-sm border-l">適度な困難が記憶を強化</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 rounded p-3 mb-3">
+                            <div class="flex justify-between">
+                                <p class="w-1/2 pr-2 text-sm">"わからない状態は避けるべき"</p>
+                                <p class="w-1/2 pl-2 text-sm border-l">混乱が深い理解を促進</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 rounded p-3 mb-3">
+                            <div class="flex justify-between">
+                                <p class="w-1/2 pr-2 text-sm">"忘れるのは非生産的"</p>
+                                <p class="w-1/2 pl-2 text-sm border-l">忘却と想起が記憶を強化</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 rounded p-3">
+                            <div class="flex justify-between">
+                                <p class="w-1/2 pr-2 text-sm">"一度に一つ学ぶべき"</p>
+                                <p class="w-1/2 pl-2 text-sm border-l">インターリービングが有効</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-blue-50 p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-3">望ましい困難（デジラブル・ディフィカルティーズ）</h4>
+                    <p class="mb-3 text-sm">学習を一時的に困難にするが、長期的な記憶や理解を促進する要因</p>
+                    <div class="flex flex-wrap -mx-2">
+                        <div class="w-1/2 px-2 mb-3">
+                            <div class="bg-white p-3 rounded h-full">
+                                <p class="font-bold text-sm mb-1">分散効果</p>
+                                <p class="text-xs">学習時間を短く区切り、間隔を空けて繰り返す</p>
+                            </div>
+                        </div>
+                        <div class="w-1/2 px-2 mb-3">
+                            <div class="bg-white p-3 rounded h-full">
+                                <p class="font-bold text-sm mb-1">インターリービング</p>
+                                <p class="text-xs">複数の異なるトピックを交互に学習する</p>
+                            </div>
+                        </div>
+                        <div class="w-1/2 px-2 mb-3">
+                            <div class="bg-white p-3 rounded h-full">
+                                <p class="font-bold text-sm mb-1">事前テスト</p>
+                                <p class="text-xs">学習前に問題に取り組み、考える行為で学習を促進</p>
+                            </div>
+                        </div>
+                        <div class="w-1/2 px-2 mb-3">
+                            <div class="bg-white p-3 rounded h-full">
+                                <p class="font-bold text-sm mb-1">想起練習</p>
+                                <p class="text-xs">学んだ内容を記憶から呼び起こして復習する</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">日本と西洋の教育アプローチ比較</h3>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-green-700 mb-2">日本（東アジア）の教育実践</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-2">
+                            <li><span class="font-bold">困難の受容：</span>学習には困難が伴うという理解</li>
+                            <li><span class="font-bold">生産的格闘：</span>意図的に混乱状態に置き、自力で解決を探求させる</li>
+                            <li><span class="font-bold">多角的アプローチ：</span>一つの問題に複数の解法を比較検討</li>
+                            <li><span class="font-bold">しなやかマインドセット：</span>努力と粘り強さを重視</li>
+                            <li><span class="font-bold">成果：</span>PISAスコアだけでなく創造的問題解決でも高評価</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-red-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-red-700 mb-2">西洋の教育問題点</h4>
+                        <ul class="list-disc pl-5 text-sm space-y-2">
+                            <li><span class="font-bold">速さの重視：</span>早く答える生徒を評価し、熟慮を軽視</li>
+                            <li><span class="font-bold">容易さの追求：</span>生徒の混乱を避け、教材を単純化しすぎる</li>
+                            <li><span class="font-bold">硬直マインドセット：</span>才能や結果を過度に重視</li>
+                            <li><span class="font-bold">失敗への恐れ：</span>失敗を恥とする文化</li>
+                            <li><span class="font-bold">結果：</span>浅い理解と応用力の欠如につながりやすい</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-lg shadow mb-6">
+                    <h4 class="font-bold mb-3">教師のスタイル：同じ問題、異なるアプローチ</h4>
+                    <div class="flex mb-3">
+                        <div class="w-1/2 pr-3 border-r">
+                            <p class="font-bold text-red-600 text-sm mb-1">典型的な西洋の教師</p>
+                            <p class="text-xs">"これが解き方です。では練習しましょう。"</p>
+                            <p class="text-xs mt-2">→ 短期的な成功、長期的な理解の欠如</p>
+                        </div>
+                        <div class="w-1/2 pl-3">
+                            <p class="font-bold text-green-600 text-sm mb-1">典型的な日本の教師</p>
+                            <p class="text-xs">"この問題をどう解くか考えてみましょう。"</p>
+                            <p class="text-xs mt-2">→ 短期的な混乱、長期的な深い理解</p>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 p-2 rounded text-xs">
+                        <p class="font-bold">スティグラーの例：</p>
+                        <p>日本の算数授業では、教師はあえて"できない子"を前に立たせ、試行錯誤を何度もさせ、クラス全体で見守る。失敗とフィードバックのプロセスをみなで共有。</p>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-lg shadow">
+                    <h4 class="font-bold mb-2">ビジネスパーソンのための個人学習戦略</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-xs font-bold">1. 分散学習を実践</p>
+                            <p class="text-xs">1日20分×5日 > 一気に2時間</p>
+                        </div>
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-xs font-bold">2. 学んだ内容を教える</p>
+                            <p class="text-xs">他者に説明すると記憶と理解が深まる</p>
+                        </div>
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-xs font-bold">3. 自己テストを頻繁に</p>
+                            <p class="text-xs">ノートを見直すより効果的</p>
+                        </div>
+                        <div class="bg-white p-2 rounded">
+                            <p class="text-xs font-bold">4. 複数分野を並行学習</p>
+                            <p class="text-xs">関連性を見つけ応用力が高まる</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Organizational Intelligence -->
+    <section class="slide" id="slide10">
+        <h2 class="text-3xl font-bold title-text mb-6">組織の知性：天才ばかりのチームはなぜ失敗するのか</h2>
+
+        <div class="flex flex-col md:flex-row gap-8 mb-6">
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">才能過剰効果</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="mb-3">優秀な人材ばかりを集めたチームが、必ずしも最高のパフォーマンスを発揮するわけではなく、むしろ逆効果になる現象</p>
+
+                    <div class="relative h-56 bg-gray-100 rounded-lg p-3">
+                        <div class="text-center mb-3">
+                            <p class="font-bold">チーム内のスター比率とパフォーマンスの関係</p>
+                            <p class="text-xs text-gray-600">（逆U字カーブ）</p>
+                        </div>
+
+                        <!-- Performance curve SVG -->
+                        <svg width="100%" height="180">
+                            <!-- Axes -->
+                            <line x1="50" y1="20" x2="50" y2="150" stroke="#172B4D" stroke-width="2"></line>
+                            <line x1="50" y1="150" x2="350" y2="150" stroke="#172B4D" stroke-width="2"></line>
+
+                            <!-- Axis labels -->
+                            <text x="200" y="170" text-anchor="middle" font-size="12">スター人材の比率</text>
+                            <text x="20" y="85" text-anchor="middle" font-size="12" transform="rotate(-90, 20, 85)">パフォーマンス</text>
+
+                            <!-- Performance curve -->
+                            <path d="M50,150 Q120,60 200,40 Q280,60 350,150" fill="none" stroke="#0052CC" stroke-width="3"></path>
+
+                            <!-- Optimal point -->
+                            <circle cx="200" cy="40" r="6" fill="#00875A"></circle>
+                            <text x="200" y="30" text-anchor="middle" font-size="11" fill="#00875A">最適点</text>
+
+                            <!-- Labels -->
+                            <text x="80" y="160" text-anchor="middle" font-size="10">0%</text>
+                            <text x="200" y="160" text-anchor="middle" font-size="10">40-50%</text>
+                            <text x="320" y="160" text-anchor="middle" font-size="10">100%</text>
+                        </svg>
+
+                        <div class="absolute bottom-2 right-2 text-xs text-gray-500">
+                            <p>※研究によるダミーデータを基にした概念図</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 p-4 rounded-lg shadow">
+                    <h4 class="font-bold text-red-700 mb-2">才能過剰の具体例</h4>
+                    <ul class="list-disc pl-5 text-sm space-y-2">
+                        <li><span class="font-bold">経営幹部チーム：</span>地位の高い幹部ばかりだと「地位争い」が起き、情報共有が劣化</li>
+                        <li><span class="font-bold">ウォール街のスターアナリスト：</span>チーム内のスター比率が40-50%を超えると効率低下</li>
+                        <li><span class="font-bold">サッカーW杯：</span>代表チーム内のトップクラブ所属選手比率が高すぎるとチーム成績が低下</li>
+                        <li><span class="font-bold">NBAバスケットボール：</span>スター選手の比率が高すぎると勝率が低下</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">集団的知能と成功要因</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <h4 class="font-bold mb-3">アニタ・ウーリーの研究：</h4>
+                    <p class="mb-3">集団的知能スコアは、個々のメンバーの平均IQや最高IQとはほとんど相関がない</p>
+
+                    <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                        <p class="font-bold">集団的知能を予測する主な要因：</p>
+                        <div class="flex items-center mt-2">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-blue-700">1</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">メンバーの平均的な社会的感受性</p>
+                                <p class="text-xs">他者の感情を読み取る能力</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-blue-700">2</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">発言機会の平等性</p>
+                                <p class="text-xs">全員が均等に発言する機会を持つこと</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                                <span class="font-bold text-blue-700">3</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">性別構成のバランス</p>
+                                <p class="text-xs">女性メンバーの比率が高いチームほど集団的知能が高い傾向</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-yellow-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-yellow-700 mb-2">グループシンク（集団浅慮）の危険性</h4>
+                        <p class="text-sm mb-2">チームの一体感を重視するあまり、建設的批判が失われ、誤った方針を強化してしまう現象</p>
+                        <p class="text-xs">例：NASAのスペースシャトル事故、登山隊の遭難</p>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-green-700 mb-2">リーダーの知的謙虚さの効果</h4>
+                        <p class="text-sm mb-2">謙虚なリーダーがいるチームは情報共有、協力、共通目標への貢献意欲が高く、業績も良い傾向</p>
+                        <p class="text-xs">例：リンカーン、バラク・オバマ、アンゲラ・メルケル</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow">
+            <h3 class="text-xl font-bold mb-4">成功するチームの特性（BCGフレームワーク）</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-blue-50 p-3 rounded-lg shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="bg-blue-100 w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                            <span class="font-bold">B</span>
+                        </div>
+                        <h4 class="font-bold">Balance（バランス）</h4>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs space-y-1">
+                        <li>多様なスキル・視点の混合</li>
+                        <li>スター人材比率を40-50%程度に</li>
+                        <li>性別・経験・バックグラウンドの多様性</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 p-3 rounded-lg shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="bg-green-100 w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                            <span class="font-bold">C</span>
+                        </div>
+                        <h4 class="font-bold">Communication（コミュニケーション）</h4>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs space-y-1">
+                        <li>平等な発言機会の確保</li>
+                        <li>心理的安全性の構築</li>
+                        <li>建設的フィードバックの奨励</li>
+                        <li>批判を歓迎する文化</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 p-3 rounded-lg shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="bg-yellow-100 w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                            <span class="font-bold">G</span>
+                        </div>
+                        <h4 class="font-bold">Growth Mindset（成長マインド）</h4>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs space-y-1">
+                        <li>失敗からの学習を重視</li>
+                        <li>リーダーの知的謙虚さ</li>
+                        <li>好奇心と実験精神の奨励</li>
+                        <li>継続的な学習文化</li>
+                    </ul>
+                </div>
+
+                <div class="bg-purple-50 p-3 rounded-lg shadow">
+                    <div class="flex items-center mb-2">
+                        <div class="bg-purple-100 w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                            <span class="font-bold">R</span>
+                        </div>
+                        <h4 class="font-bold">Reflection（振り返り）</h4>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs space-y-1">
+                        <li>定期的な内省と検証</li>
+                        <li>プロセスの継続的改善</li>
+                        <li>成功・失敗の分析</li>
+                        <li>外部視点の取り入れ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Organizational Stupidity -->
+    <section class="slide" id="slide11">
+        <h2 class="text-3xl font-bold title-text mb-6">「機能的愚鈍」から組織を守る</h2>
+
+        <div class="flex flex-col md:flex-row gap-8 mb-8">
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">組織の「機能的愚鈍」とは</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="mb-3">個々の従業員は知的で有能であるにもかかわらず、組織全体として非合理的で近視眼的な意思決定を行ってしまう現象</p>
+
+                    <div class="bg-red-50 p-3 rounded-lg mb-3">
+                        <p class="font-bold mb-2">機能的愚鈍の特徴：</p>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>前提を疑わない</li>
+                            <li>目的を問わない</li>
+                            <li>長期的影響を考慮しない</li>
+                            <li>批判的意見を抑圧する</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-3 rounded-lg">
+                        <p class="font-bold mb-2">機能的愚鈍の原因：</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <ul class="list-disc pl-5 text-xs">
+                                    <li>短期的な効率性重視</li>
+                                    <li>過剰な専門化</li>
+                                    <li>責任の細分化</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul class="list-disc pl-5 text-xs">
+                                    <li>完全な忠誠心要求</li>
+                                    <li>過度なポジティブ思考</li>
+                                    <li>権威への過剰な敬意</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-5">
+                    <h4 class="font-bold mb-3">事例：失敗した組織</h4>
+                    <div class="mb-4 border-b pb-4">
+                        <p class="font-bold">ノキアの凋落</p>
+                        <p class="text-sm mb-2">携帯電話市場の覇者が、スマートフォンの台頭に対応できず敗退</p>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <p class="text-xs">原因：技術者が危機を認識していたが、上層部への異議申し立てができない（恐怖による支配）、短期的な製品リリース圧力、外部意見の軽視</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="font-bold">ディープウォーター・ホライズン原油流出事故</p>
+                        <p class="text-sm mb-2">コスト削減圧力と安全軽視による大惨事</p>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <p class="text-xs">原因：多数のニアミスからの学習不足、安全手順の軽視、懸念表明を抑圧する文化、短期的なコスト削減圧力</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">「結果バイアス」の危険性</h3>
+                <div class="bg-white rounded-lg shadow p-5 mb-6">
+                    <p class="mb-3">判断の評価を実際の結果のみに基づいて行い、起こりえた他の可能性（ニアミス）を考慮しない傾向</p>
+
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="bg-red-50 p-3 rounded-lg w-5/6">
+                            <div class="flex process-step mb-3">
+                                <div class="w-1/3 text-center">
+                                    <p class="text-xs font-bold">ニアミス</p>
+                                </div>
+                                <div class="w-1/3 text-center">
+                                    <p class="text-xs font-bold">「運が良かった」</p>
+                                </div>
+                                <div class="w-1/3 text-center">
+                                    <p class="text-xs font-bold">リスク感度低下</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="w-1/3 text-center">
+                                    <p class="text-[10px]">問題があったが、たまたま事故にならなかった</p>
+                                </div>
+                                <div class="w-1/3 text-center">
+                                    <p class="text-[10px]">危険性を認識せず、結果が良かったと評価</p>
+                                </div>
+                                <div class="w-1/3 text-center">
+                                    <p class="text-[10px]">次回はより大きなリスクを取る</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm mb-2">影響：</p>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>過去のニアミスから学習できず、徐々にリスク許容度が高まる</li>
+                        <li>大惨事につながる危険性（コロンビア号、チャレンジャー号事故など）</li>
+                    </ul>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bg-green-50 p-5 rounded-lg shadow">
+                        <h4 class="font-bold text-green-700 mb-3">信頼性の高い組織（HROs）の特徴</h4>
+                        <p class="text-sm mb-3">原子力発電所、航空母艦、航空管制など、高リスク環境下で事故率を低く抑える組織</p>
+
+                        <div class="bg-white p-3 rounded-lg mb-3">
+                            <h5 class="font-bold mb-2">集団的マインドフルネス：</h5>
+                            <ul class="list-disc pl-5 text-xs space-y-1">
+                                <li><span class="font-bold">失敗へのこだわり:</span> 成功に慢心せず、常に失敗の可能性を意識</li>
+                                <li><span class="font-bold">単純な解釈の忌避:</span> 前提を疑い、多様な視点を歓迎</li>
+                                <li><span class="font-bold">業務への感度:</span> 状況認識を更新し、異常値に注意</li>
+                                <li><span class="font-bold">レジリエンスの強化:</span> 失敗からの回復力を高める</li>
+                                <li><span class="font-bold">専門的意見への敬意:</span> 階層に関わらず専門家の意見を尊重</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-lg">
+                            <h5 class="font-bold mb-2">実践例:</h5>
+                            <ul class="list-disc pl-5 text-xs">
+                                <li>米海軍のSUBSAFEプログラム（潜水艦の安全運用計画）</li>
+                                <li>医療機関における「安全ミーティング」導入</li>
+                                <li>航空業界のインシデント報告システム</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg shadow">
+                        <h4 class="font-bold text-blue-700 mb-2">機能的愚鈍を克服する方法</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white p-2 rounded">
+                                <p class="text-xs font-bold">「考える自由」を与える</p>
+                                <p class="text-[10px]">質問や異論を奨励し報いる文化</p>
+                            </div>
+                            <div class="bg-white p-2 rounded">
+                                <p class="text-xs font-bold">立ち止まり振り返る時間を作る</p>
+                                <p class="text-[10px]">ニアミス分析、定期的な振り返り</p>
+                            </div>
+                            <div class="bg-white p-2 rounded">
+                                <p class="text-xs font-bold">「悪魔の代弁者」を任命</p>
+                                <p class="text-[10px]">意図的に反対意見を表明する役割</p>
+                            </div>
+                            <div class="bg-white p-2 rounded">
+                                <p class="text-xs font-bold">外部の視点を取り入れる</p>
+                                <p class="text-[10px]">社外取締役、顧問、コンサルタント</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Conclusion & Action Items -->
+    <section class="slide" id="slide12">
+        <h2 class="text-3xl font-bold title-text mb-6">結論と実践のためのアクションプラン</h2>
+
+        <div class="flex flex-col md:flex-row gap-8 mb-8">
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">本書の核心メッセージ</h3>
+                <div class="bg-blue-50 p-5 rounded-lg shadow mb-6">
+                    <p class="text-lg mb-4">「知性はアクセルのようなもの。適切なハンドル（感情や謙虚さのコントロール）とブレーキ（内省・批判的思考）がなければ、むしろ危険な暴走を招く」</p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-3 rounded-lg">
+                            <p class="font-bold mb-2">高IQの落とし穴</p>
+                            <ul class="list-disc pl-5 text-sm">
+                                <li>自分の考えを過信</li>
+                                <li>批判を無視する傾向</li>
+                                <li>動機づけられた推論</li>
+                                <li>感情バイアスを認識できない</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-lg">
+                            <p class="font-bold mb-2">真の知恵の要素</p>
+                            <ul class="list-disc pl-5 text-sm">
+                                <li>知的謙虚さ</li>
+                                <li>オープンマインド</li>
+                                <li>内省的思考</li>
+                                <li>批判的思考</li>
+                                <li>しなやかマインドセット</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-3">重要な洞察</h4>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <p class="font-bold">1. 「知性」は多面的</p>
+                            <p class="text-sm">IQや学歴だけでなく、合理性、謙虚さ、内省力など多様な要素の総体</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-3">
+                            <p class="font-bold">2. 感情は敵ではなく情報源</p>
+                            <p class="text-sm">適切に理解・活用すれば、より良い意思決定につながる重要なシグナル</p>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <p class="font-bold">3. 学習における「望ましい困難」</p>
+                            <p class="text-sm">困難や失敗は避けるべきものではなく、深い理解と記憶に必要な要素</p>
+                        </div>
+                        <div class="border-l-4 border-yellow-500 pl-3">
+                            <p class="font-bold">4. 組織の知性は個人の単純合計ではない</p>
+                            <p class="text-sm">多様な視点、心理的安全性、批判を歓迎する文化が不可欠</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-xl font-bold mb-4">実践アクションプラン</h3>
+                <div class="bg-white p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-4">個人レベルの実践</h4>
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">1</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">「10秒ルール」で自己距離化</p>
+                                <p class="text-sm">強い感情が起こったとき、10秒だけ黙って自分を3人称で呼ぶ。「○○（自分の名前）、今怒ってるのはなぜだろう？」と考える。視点を変え、冷静なモードに入る。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-green-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">2</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">反対情報をあえて探す習慣をつける</p>
+                                <p class="text-sm">重要な判断をする前に、自分の意見と反対の証拠や視点を最低でも2つは探して検討する。「動機づけられた推論」を弱める。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-yellow-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">3</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">「1日15分の分散学習」を実践</p>
+                                <p class="text-sm">集中的に3時間学ぶより、1日15〜20分を1週間続ける。さらに自己テストで確認すると記憶効果が高まる。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">4</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">マインドセットを転換する3ステップ</p>
+                                <p class="text-sm">(1)「今の自分が完成形ではない」と言葉にする (2)新たな挑戦で「下手なところから始めること」に意義があると認識 (3)失敗から学んだことを必ず記録する</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-white p-5 rounded-lg shadow">
+                    <h4 class="font-bold mb-4">組織・チームレベルの実践</h4>
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="bg-red-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">1</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">チームでの「批判役」ローテーション</p>
+                                <p class="text-sm">会議で1人を「デビルズ・アドボケイト」（あえて反対意見を述べる担当）に指名し、ローテーションする。グループシンクを防ぎ、新たな視点を導入。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">2</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">「失敗をイベント化」する文化づくり</p>
+                                <p class="text-sm">プロジェクト失敗を振り返る「ポストモーテム会議」で責任追及より学習重視の姿勢を示す。失敗事例を教訓として共有・称賛する。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-green-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="font-bold">3</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">チーム構成の最適化</p>
+                                <p class="text-sm">スター社員の比率を40-50%程度に保ち、多様なスキルセットとバックグラウンドを確保。社会的感受性の高いメンバーを意識的に含める。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter" id="slideCounter">1 / 12</div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <button class="btn" id="prevBtn">Previous</button>
+        <button class="btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        // Slide functionality
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show the selected slide
+            document.getElementById('slide' + slideNumber).classList.add('active');
+
+            // Update counter
+            document.getElementById('slideCounter').textContent = slideNumber + ' / ' + totalSlides;
+
+            // Update progress bar
+            const progressPercent = (slideNumber / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
